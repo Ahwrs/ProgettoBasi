@@ -1,0 +1,28 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[a4paper, margin=2.5cm]{geometry}
+\usepackage{parskip}
+\usepackage{graphicx}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{7cm}
+    {\Huge\bfseries [PLACEHOLDER FRONTESPIZIO]}\par
+    \vspace{1.5cm}
+    {\Large Progetto di Basi di Dati -- Gruppo BMW}
+    \vfill
+    {\large Data attuale: \today \par}
+\end{titlepage}
+
+\clearpage
+
+\renewcommand{\contentsname}{Indice}
+\tableofcontents
+
+\clearpage
+
+\input{capitoli/abstract.tex}
+\input{capitoli/analisi_requisiti.tex}
+
+\end{document}

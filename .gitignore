@@ -1,0 +1,25 @@
+# ========================
+# File temporanei di LaTeX
+# ========================
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.synctex.gz
+*.toc
+*.out
+*.lof
+*.lot
+*.bbl
+*.blg
+
+# ========================
+# Artefatti di Windows/WSL
+# ========================
+*:Zone.Identifier
+*.Zone.Identifier
+
+# ========================
+# File compilati (Opzionale)
+# ========================
+main.pdf
