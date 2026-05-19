@@ -1,0 +1,110 @@
+Codice Latex:
+
+```latex
+\section{Progettazione Concettuale}
+
+\subsection*{Figura 1}
+
+La Figura 1 mostra il diagramma Entità-Relazione (E-R) che riassume i requisiti descritti nella sezione precedente.
+
+% Inserire qui l'immagine del diagramma E-R
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figura1.png}
+    \caption{Diagramma Entità-Relazione}
+    \label{fig:er_diagram}
+\end{figure}
+
+Esistono due tipologie di veicoli, nuovi e usati. Per i veicoli nuovi si vuole tenere traccia della garanzia e degli optional di cui dispongono, mentre per i veicoli usati vengono registrati il numero di proprietari precedenti e la data dell’ultima revisione.
+
+Ogni veicolo è istanza di un determinato modello, il quale è a sua volta motorizzato da uno specifico motore. Per ogni associazione tra modello e motore viene inoltre registrata la potenza.
+
+L’analisi dei requisiti pone particolare attenzione anche agli interventi effettuati sui veicoli. Ogni intervento si riferisce ad un solo veicolo ed è eseguito da un meccanico. Durante un intervento possono essere utilizzati uno o più ricambi, dei quali si vuole memorizzare anche la quantità impiegata.
+
+Ogni acquisto coinvolge un cliente, un veicolo e un venditore, registrando inoltre la data e il prezzo della vendita. Un cliente può effettuare più acquisti nel tempo, mentre un determinato veicolo può essere associato ad al più un acquisto.
+
+I dipendenti della concessionaria si distinguono in meccanici e venditori. Per i meccanici si vuole tenere traccia del livello aziendale e della specializzazione, mentre per i venditori vengono memorizzati il totale delle vendite effettuate e la percentuale di commissione.
+
+Un venditore può non essere ancora associato ad alcuna vendita, così come un meccanico può non aver ancora eseguito interventi, al fine di consentire la registrazione nel sistema di dipendenti appena assunti.
+
+La Tabella 1 riassume tutte le entità e le relazioni individuate dall’analisi dei requisiti e rappresentate nel diagramma E-R, con i relativi attributi rilevanti. Per ciascuna entità viene inoltre indicato l’identificatore.
+
+Il presente schema E-R non permette di rappresentare direttamente i seguenti vincoli:
+
+\begin{itemize}
+    \item Se un veicolo usato viene venduto, allora la \texttt{Data\_Acquisto} deve essere successiva alla \texttt{Data\_Ultima\_Revisione}.
+\end{itemize}
+
+\subsection*{Tabella 1}
+
+\subsubsection*{(a) Entità}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|p{3cm}|p{3.5cm}|p{5cm}|p{3cm}|}
+\hline
+\textbf{Entità} & \textbf{Descrizione} & \textbf{Attributi} & \textbf{Identificatore} \\
+\hline
+Veicolo & Veicolo generico & VIN, Anno\_Immatricolazione & VIN \\
+\hline
+Veicolo\_Nuovo & Veicolo nuovo & Garanzia & VIN (Ereditato) \\
+\hline
+Veicolo\_Usato & Veicolo usato & Numero\_Proprietari, Data\_Ultima\_Revisione & VIN (Ereditato) \\
+\hline
+Cliente & Cliente del concessionario & Codice\_Fiscale, Nome, Cognome, Data\_Nascita, Telefono & Codice\_Fiscale \\
+\hline
+Dipendente & Dipendente generico & Matricola, Data\_Assunzione, Stipendio & Matricola \\
+\hline
+Meccanico & Dipendente meccanico & Livello\_Aziendale, Specializzazione & Matricola (Ereditato) \\
+\hline
+Venditore & Dipendente venditore & Totale\_Vendite, Percentuale\_Commissione & Matricola (Ereditato) \\
+\hline
+Modello & Forma e dimensione della BMW & Denominazione\_Commerciale, Codice\_Telaio, Anno\_Prima\_Produzione & (Denominazione\_Commerciale, Codice\_Telaio) \\
+\hline
+Motore & Prodotto motore & Codice\_Motore, Cilindrata, Frazionamento, Alimentazione & Codice\_Motore \\
+\hline
+Optional & Prodotto opzionale nel veicolo & Codice\_Optional, Nome, Categoria & Codice\_Optional \\
+\hline
+Ricambio & Pezzo di ricambio & OEM, Nome, Prezzo\_Unitario & OEM \\
+\hline
+Intervento & Intervento di officina & Numero\_Intervento, Data\_Intervento, Ore\_Manodopera, Costo & Numero\_Intervento, Relazione ``Esegue'', Relazione ``Sottoposto'' \\
+\hline
+\end{tabular}
+\caption{Dizionario dei dati -- Entità}
+\label{tab:entita}
+\end{table}
+
+\subsubsection*{(b) Relazioni}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|p{3cm}|p{5cm}|p{4cm}|p{3cm}|}
+\hline
+\textbf{Relazione} & \textbf{Descrizione} & \textbf{Componenti} & \textbf{Attributi} \\
+\hline
+Acquisto & Acquisto di un veicolo da parte di un cliente assistito da un venditore & Cliente, Veicolo, Venditore & Data\_Acquisto, Prezzo \\
+\hline
+Sottoposto & Un veicolo viene sottoposto a un intervento & Veicolo, Intervento & - \\
+\hline
+Esegue & Un meccanico esegue un intervento & Meccanico, Intervento & - \\
+\hline
+Utilizza & Un intervento utilizza ricambi & Intervento, Ricambio & Quantità \\
+\hline
+Motorizzato\_Da & Un modello è equipaggiato con un motore (con una certa potenza) & Modello, Motore & Potenza \\
+\hline
+Include & Un veicolo nuovo include optional & Veicolo\_Nuovo, Optional & - \\
+\hline
+Istance\_Of & Un veicolo è istanza di un modello & Veicolo, Modello & - \\
+\hline
+\end{tabular}
+\caption{Dizionario dei dati -- Relazioni}
+\label{tab:relazioni}
+\end{table}
+
+\vspace{0.5cm}
+
+\noindent
+Tabella 1: Dizionario dei dati. Si noti che l’identificatore dell’entità \texttt{Intervento} include le relazioni con altre entità. Infine, si noti che l’identificatore dell’entità \texttt{Modello} è un identificatore composto da due attributi.
+```
