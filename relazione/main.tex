@@ -1,28 +1,57 @@
 \documentclass[11pt, a4paper]{article}
+
 \usepackage[a4paper, margin=2.5cm]{geometry}
+\usepackage[italian]{babel}
 \usepackage{parskip}
 \usepackage{graphicx}
+\usepackage{float}
 
 \begin{document}
 
+% Inizio pagina titolo
 \begin{titlepage}
     \centering
-    \vspace*{7cm}
-    {\Huge\bfseries [PLACEHOLDER FRONTESPIZIO]}\par
-    \vspace{1.5cm}
-    {\Large Progetto di Basi di Dati -- Gruppo BMW}
+
+    \null \vfill
+
+    \includegraphics [width=10cm] {allegati/unipd_logo.png} 
+
+    \vspace{1cm}
+
+    {\huge \textsc {Dipartimento di Matematica}} \\
+    \vspace {0.5cm}
+    {\huge \textsc {Corso di Laurea in Informatica}} \\
+    \vspace {2.0cm}
+    {\Large \textsc {Progetto di Basi di Dati}}
+    \vspace {0.3cm}
+
+    \rule{\textwidth}{0.3pt}
+
+    {\huge \textbf {Base di Dati di un Sistema \\
+            Informativo per la gestione di \\
+            una concessionaria BMW}}
+
+    \rule {\textwidth} {0.3pt}
+
+    \vspace{0.5cm}
+
+    \Large {Marco Bollettin, David Sirbu}
+
     \vfill
-    {\large Data attuale: \today \par}
 \end{titlepage}
-
 \clearpage
+% Fine pagina titolo
 
-\renewcommand{\contentsname}{Indice}
+
+% Inizio pagina indice
 \tableofcontents
-
 \clearpage
+% Fine pagina indice
 
+
+% Inizio contenuto
 \input{capitoli/abstract.tex}
 \input{capitoli/analisi_requisiti.tex}
+% Fine contenuto
 
 \end{document}
