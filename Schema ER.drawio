@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net">
   <diagram name="Pagina-1" id="p1CPM-xl__OAQZTqO7ub">
-    <mxGraphModel dx="1563" dy="1570" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2307" dy="2006" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -47,7 +47,7 @@
         <mxCell id="hHTd7zWrMo2rt2rmAaMS-14" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Nome" vertex="1">
           <mxGeometry height="30" width="60" x="770" y="210" as="geometry" />
         </mxCell>
-        <mxCell id="hHTd7zWrMo2rt2rmAaMS-15" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fillColor=default;" target="hHTd7zWrMo2rt2rmAaMS-5" value="">
+        <mxCell id="hHTd7zWrMo2rt2rmAaMS-15" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fillColor=#000000;" target="hHTd7zWrMo2rt2rmAaMS-5" value="">
           <mxGeometry height="50" relative="1" width="50" as="geometry">
             <mxPoint x="200" y="370" as="sourcePoint" />
             <mxPoint x="350" y="350" as="targetPoint" />
@@ -184,7 +184,7 @@
         <mxCell id="E3mIxawEnmhKzKwJJPLN-13" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Stipendio" vertex="1">
           <mxGeometry height="30" width="40" x="570" y="-280" as="geometry" />
         </mxCell>
-        <mxCell id="E3mIxawEnmhKzKwJJPLN-16" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fillColor=default;" value="">
+        <mxCell id="E3mIxawEnmhKzKwJJPLN-16" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fillColor=#000000;" value="">
           <mxGeometry height="50" relative="1" width="50" as="geometry">
             <mxPoint x="630" y="-110" as="sourcePoint" />
             <mxPoint x="630" y="-170" as="targetPoint" />
@@ -578,8 +578,8 @@
         </mxCell>
         <mxCell id="9TJknxaOQJ1xtWNNqaPk-16" edge="1" parent="1" style="endArrow=oval;html=1;rounded=0;endFill=1;startSize=8;endSize=8;" value="">
           <mxGeometry height="50" relative="1" width="50" as="geometry">
-            <mxPoint x="180" y="-10" as="sourcePoint" />
-            <mxPoint x="180" y="-80" as="targetPoint" />
+            <mxPoint x="180" y="-50" as="sourcePoint" />
+            <mxPoint x="180" y="-10" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="9TJknxaOQJ1xtWNNqaPk-20" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Alimentazione" vertex="1">
