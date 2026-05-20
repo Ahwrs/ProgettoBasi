@@ -2,3 +2,99 @@
 
 Questa sezione riassume i requisiti a cui deve sottostare la base di dati per la
 gestione della concessionaria BMW e relativa officina.
+
+\begin{description}
+    \item[Veicolo] Ogni veicolo è identificato dal Vehicle Identification Number (VIN),
+    un codice alfanumerico di 17 caratteri univoco per ogni vettura esistente
+    (immatricolata o meno).
+    Le caratteristiche di un veicolo sono:
+    \begin{itemize}
+        \item Anno di immatricolazione
+        \item Modello commerciale
+    \end{itemize}
+    I veicoli si suddividono in nuovi e usati 
+    \item[Veicolo nuovo] Un veicolo che non è mai stato immatricolato. Vengono
+    registrati ulteriori dati:
+    \begin{itemize}
+        \item Periodo di garanzia
+        \item Insieme degli accessori opzionali di cui dispone
+    \end{itemize}
+
+    \item[Veicolo usato] Un veicolo che è già stato immatricolato e, successivamente,
+    venduto dal precedente proprietario. I dati ulteriori registrati sono:
+    \begin{itemize}
+        \item Numero di proprietari passati
+        \item Data dell'ultima revisione effettuata
+    \end{itemize}
+
+    \item[Modello] Il modello definisce l'architettura costruttiva e le specifiche
+    di una determinata famiglia di veicoli. Viene identificata dall'insieme di:
+    \begin{itemize}
+        \item \textbf{Codice telaio}: sigla composta da una lettera e due numeri, usata
+        internamente da casa madre per identificare la piattaforma strutturale del
+        veicolo, la sua generazione e il tipo di carrozzeria.
+        \item \textbf{Denominazione commerciale}: sigla di 3 numeri e una lettera che
+        indicano serie di appartenenza, range di potenza e alimentazione del propulsore
+    \end{itemize}
+    La combinazione dei due attributi è necessaria poiché una data piattaforma può
+    essere venduta con potenze e alimentazioni diverse, sia montando
+    diversi propulsori che declinando la potenza degli stessi
+    (tramite depotenziamento meccanico e/o elettronico). \\
+    Altre proprietà del modello:
+    \begin{itemize}
+        \item \textbf{Potenza}: numero (unità di misura: cv) che indica le 
+        prestazioni generali del modello.
+    \end{itemize}
+    Il sistema tiene anche traccia del propulsore montato su un determinato modello
+    e la sua potenza specifica. Tuttavia, tali informazioni dipendono dall'accoppiamento
+    tecnico con la motorizzazione specifica.
+    \item[Motore] Specifico propulsore montato sul veicolo.
+    E' identificato da un codice alfanumerico stabilito direttamente da casa madre.
+    Inoltre, presenta le seguenti caratteristiche:
+    \begin{itemize}
+        \item \textbf{Cilindrata}: Quantità d'aria volumetrica aspirata dal motore
+        ad ogni ciclo (unità di misura: $cm^3$)
+        \item \textbf{Frazionamento}: Sigla che illustra il numero di cilindri e la
+        loro disposizione all'interno del monoblocco.
+        \item \textbf{Alimentazione}: Carburante iniettato nel propulsore. A carburanti
+        diversi corrispondono rendimenti, consumi e valori di inquinamento differenti.
+    \end{itemize}
+    La potenza non è una caratteristica associata unicamente al motore poiché,
+    come già accennato, un motore può essere declinato meccanicamente e/o
+    elettronicamente per essere montato su modelli con struttura uguale
+    ma range di potenza diversi.
+
+    \item[Cliente] Viene identificato dal codice fiscale. Vengono salvate anche
+    le informazioni relative a:
+    \begin{itemize}
+        \item Nome
+        \item Cognome
+        \item Data di nascita
+        \item Numero di telefono
+    \end{itemize}
+
+    \item[Dipendente] Viene identificato dal numero di matricola aziendale. Altre
+    caratteristiche:
+    \begin{itemize}
+        \item Nome
+        \item Cognome
+        \item Data di assunzione
+        \item Stipendio
+    \end{itemize}
+    I dipendenti si dividono in meccanici e venditori
+
+    \item[Meccanico] Oltre alle informazioni già presenti, vengono memorizzati anche:
+    \begin{itemize}
+        \item Specializzazione
+        \item Livello nella gerarchia aziendale
+    \end{itemize}
+    
+    \item[Venditore] Oltre alle informazioni già presenti, vengono memorizzati anche:
+    \begin{itemize}
+        \item Numero totale di vendite effettuate
+        \item Percentuale ottenuta sulla vendita.
+    \end{itemize}
+    Un venditore viene registrato dal momento in cui viene assunto, anche se non ha
+    ancora concluso alcuna vendita. Un veicolo può essere venduto o invenduto
+
+\end{description}
