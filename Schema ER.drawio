@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net">
   <diagram name="Pagina-1" id="p1CPM-xl__OAQZTqO7ub">
-    <mxGraphModel dx="3002" dy="2364" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1563" dy="1570" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -668,6 +668,24 @@
         </mxCell>
         <mxCell id="NAkj_alTEt3czGzzMMzt-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Data_Ultima_Revisione" vertex="1">
           <mxGeometry height="30" width="60" x="60" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="mg6dcNfGH2QRqTveivOF-1" edge="1" parent="1" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;endArrow=oval;endFill=0;startSize=8;endSize=8;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="570" y="-190" as="sourcePoint" />
+            <mxPoint x="530" y="-190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mg6dcNfGH2QRqTveivOF-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Nome" vertex="1">
+          <mxGeometry height="30" width="60" x="470" y="-205" as="geometry" />
+        </mxCell>
+        <mxCell id="mg6dcNfGH2QRqTveivOF-3" edge="1" parent="1" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=oval;endFill=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=1;entryY=1;entryDx=0;entryDy=0;startSize=8;endSize=8;" target="mg6dcNfGH2QRqTveivOF-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="570" y="-210" as="sourcePoint" />
+            <mxPoint x="600" y="-230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mg6dcNfGH2QRqTveivOF-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Cognome" vertex="1">
+          <mxGeometry height="30" width="80" x="460" y="-260" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
