@@ -1,0 +1,258 @@
+\vspace{0.5cm}
+\section{Progettazione Logica}
+
+In questa sezione viene descritto il processo di \textbf{reificazione} dello schema E-R presentato in precedenza.
+L'obiettivo è rappresentare i dati in modo preciso ed efficiente, analizzando le ridondanze, eliminando le generalizzazioni ed infine illustrando graficamente il diagramma risultante, fino a ottenere una struttura complessiva ottimizzata per la traduzione in linguaggio SQL.
+
+\vspace{0.5cm}
+\subsection{Analisi delle Ridondanze}
+
+Come evidenziato nello schema E-R in \textbf{Figura 1}, l'attributo \textit{Totale\_Vendite} effettuate da un venditore risulta essere ridondante. Tale informazione, infatti, può essere ottenuta direttamente contando le occorrenze del venditore all'interno della relazione Acquisto.
+
+L'attributo viene attualmente aggiornato ad ogni nuova vendita (circa 2/3 al giorno) e consultato alla fine di ogni mese per monitorare l'andamento dei venditori dipendenti.
+
+\vspace{0.5cm}
+
+\renewcommand{\arraystretch}{1.5}
+\begin{longtable}{|
+>{\centering\arraybackslash}m{2cm}|
+>{\centering\arraybackslash}m{3cm}|
+>{\centering\arraybackslash}m{1.5cm}|
+}
+
+\caption*{\textbf{Volumi considerati}}
+\\
+
+\hline
+\textbf{Costrutto} & \textbf{Descrizione} & \textbf{Volume} \\
+\hline
+\endfirsthead
+
+\hline
+\textbf{Costrutto} & \textbf{Descrizione} & \textbf{Volume} \\
+\hline
+\endhead
+
+Venditore & Numero di venditori & 10 \\
+\hline
+
+Acquisto & Numero di vendite al mese & 60 \\
+\hline
+
+\end{longtable}
+
+Le operazioni principali individuate sono:
+
+\begin{itemize}
+    \item \textbf{Operazione 1 (Scrittura)}: Inserimento di una nuova vendita.
+    \item \textbf{Operazione 2 (Lettura)}: Visualizzazione del numero di vendite per ciascun venditore.
+\end{itemize}
+
+
+Di seguito viene effettuata un'analisi dei costi per valutare la convenienza nel mantenere l'attributo \textit{Totale\_Vendite}.
+
+\vspace{0.5cm}
+\subsubsection{Scenario con Ridondanza}
+
+\begin{itemize}
+    \item{ \textbf{Operazione 1:} Inserimento di una vendita.
+
+       \begin{longtable}{|
+            >{\centering\arraybackslash}m{2cm}|
+            >{\centering\arraybackslash}m{1.5cm}|
+            >{\centering\arraybackslash}m{1cm}|
+            }
+            
+            \hline
+            \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+            \hline
+            \endfirsthead
+            
+            \hline
+            \textbf{Costrutto} & \textbf{Descrizione} & \textbf{Tipo} \\
+            \hline
+            \endhead
+            
+            Venditore & 1 & S \\
+            \hline
+            
+            Acquisto & 1 & S \\
+            \hline
+            
+        \end{longtable}
+
+        Ogni inserimento comporta quindi 2 accessi in scrittura.
+        Su base mensile:
+
+        \begin{itemize}
+            \renewcommand{\labelitemii}{$\circ$}
+            \item 60 vendite → 60 × 2 = 120 accessi in scrittura.
+            \item Si considera che una scrittura ha costo doppio rispetto a una lettura. Questo perchè nella maggior parte dei DBMS relazionali la scrittura risulta più "pesante" rispetto alla lettura, dunque si ottiene: → 120 × 2 = 240 unità.
+        \end{itemize}
+    }
+    
+    \item {\textbf{Operazione 2}: Lettura mensile.
+
+        \begin{longtable}{|
+                >{\centering\arraybackslash}m{2cm}|
+                >{\centering\arraybackslash}m{1.5cm}|
+                >{\centering\arraybackslash}m{1cm}|
+                }
+                
+                \hline
+                \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+                \hline
+                \endfirsthead
+                
+                \hline
+                \textbf{Costrutto} & \textbf{Descrizione} & \textbf{Tipo} \\
+                \hline
+                \endhead
+                
+                Venditore & 10 & L \\
+                \hline
+                
+        \end{longtable}
+
+        Il per gli accessi in lettura è di 10 unità.
+        \newline Si ottiene quindi un \textbf{costo totale mensile} con ridondanza pari a: 240 + 10 = 250 unità.
+    }
+\end{itemize}
+
+\vspace{0.5cm}
+\subsubsection{Scenario senza Ridondanza}
+
+\begin{itemize}
+    \item{ \textbf{Operazione 1:} Inserimento di una vendita.
+
+       \begin{longtable}{|
+            >{\centering\arraybackslash}m{2cm}|
+            >{\centering\arraybackslash}m{1.5cm}|
+            >{\centering\arraybackslash}m{1cm}|
+            }
+            
+            \hline
+            \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+            \hline
+            \endfirsthead
+            
+            \hline
+            \textbf{Costrutto} & \textbf{Descrizione} & \textbf{Tipo} \\
+            \hline
+            \endhead
+               
+            Acquisto & 1 & S \\
+            \hline
+            
+        \end{longtable}
+
+        Ogni inserimento comporta 1 solo accesso in scrittura.
+        Su base mensile:
+        \begin{itemize}
+            \renewcommand{\labelitemii}{$\circ$}
+            \item 60 vendite → 60 × 1 = 60 accessi in scrittura.
+            \item Costo Pesato: → 60 × 2 = 120 unità.
+        \end{itemize}
+        
+    }
+    
+    \vspace{0.5cm}
+    \item {\textbf{Operazione 2}: Lettura mensile.
+        \newline Il numero di vendite per venditore può essere ottenuto tramite una query aggregata del tipo:
+
+         \vspace{0.5cm}
+        \begin{center}
+            \makebox[10cm]{\hspace{2cm}
+                SELECT Matricola, COUNT(*) FROM Acquisto GROUP BY Matricola;
+            \hspace{2cm}}
+        \end{center}
+        \vspace{0.5cm}
+         
+       Anche con un indice su ACQUISTO(Matricola), il sistema deve comunque scorrere tutte le 60 tuple della relazione.
+       
+        \begin{longtable}{|
+                >{\centering\arraybackslash}m{2cm}|
+                >{\centering\arraybackslash}m{1.5cm}|
+                >{\centering\arraybackslash}m{1cm}|
+                }
+                
+                \hline
+                \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+                \hline
+                \endfirsthead
+                
+                \hline
+                \textbf{Costrutto} & \textbf{Descrizione} & \textbf{Tipo} \\
+                \hline
+                \endhead
+                
+                Acquisto & 60 & L \\
+                \hline
+                
+        \end{longtable}
+
+        Il costo per gli accessi in lettura è dunque di 60 unità.
+        \newline Si ottiene quindi un \textbf{costo totale mensile} senza ridondanza pari a: 120 + 60 = 180 unità.
+    }
+\end{itemize}
+
+\vspace{0.5cm}
+\subsubsection{Confronto Finale} 
+\vspace{0.5cm}
+\begin{longtable}{|
+                >{\centering\arraybackslash}m{3.5cm}|
+                >{\centering\arraybackslash}m{2.5cm}|
+                }
+                
+                \hline
+                \textbf{Scenario} & \textbf{Costo Mensile} \\
+                \hline
+                \endfirsthead
+                
+                \hline
+                \textbf{Scenario} & \textbf{Costo Mensile} \\
+                \hline
+                \endhead
+                
+                Con Ridondanza & 250 \\
+                \hline
+
+                Senza Ridondanza & 180 \\                
+                \hline
+                
+        \end{longtable}
+        
+Dall'analisi emerge che la soluzione senza ridondanza è più efficiente, con un risparmio di circa il 28\%. Questo è dovuto al fatto che l'operazione di lettura aggregata è poco frequente (una sola volta al mese) e il volume di dati è contenuto (60 vendite mensili).
+
+Il costo di aggiornare l'attributo ad ogni inserimento supera quindi il beneficio ottenuto nell'evitare il calcolo durante la fase di lettura.
+
+\subsubsection{Conclusione} 
+
+Si decide pertanto di eliminare l'attributo ridondante Totale\_Vendite dall'entità VENDITORE. Il numero di vendite verrà calcolato direttamente sulla relazione ACQUISTO mediante interrogazioni SQL con COUNT e GROUP BY.
+
+\vspace{0.5cm}
+
+\textbf{Nota:} È importante sottolineare che la scelta dipende dal contesto: qualora la frequenza di lettura fosse significativamente più alta (ad esempio più volte al giorno), il mantenimento della ridondanza potrebbe risultare conveniente. Nel caso in esame, invece, la soluzione ottimale è la sua rimozione.
+
+\vspace{0.5cm}
+\subsection{Eliminazione delle Generalizzazioni}
+
+Come evidenziato nello schema E-R in \textbf{Figura 1} le generalizzazioni presenti devono essere eliminiate con l'obiettivo di semplificare la successiva implementazione del modello relazionale.
+A questo scopo si sviluppa lo schema ristrutturato in \textbf{Figura 2}, dove si aggiunge anche il volere di mantenere sia la distinzione logica dei dati e sia di evitare valori nulli.
+Di seguito vengono quindi elencate le trasformazioni duelle due generalizzazioni presenti:
+
+\begin{itemize}
+    \item \textbf{Veicolo:} La generalizzazione di \textit{Veicolo} viene eliminata introducendo due nuove relazioni, \textbf{IS\_USATO} e \textbf{IS\_NUOVO}.
+
+    Come già anticipato, questa scelta consente di mantenere una separazione logica tra le due tipologie, evitando la presenza di valori nulli e preservando al contempo lo stesso insieme di attributi già definiti nella fase precedente di ristrutturazione.
+    \newline In questo modo, gli identificatori di \textit{Veicolo\_Nuovo} e \textit{Veicolo\_Usato} coincidono rispettivamente con quelli delle relazioni associate.
+
+    \vspace{0.5cm}
+
+    \item \textbf{Dipendente: } In modo analogo, la generalizzazione di \textit{Dipendente} viene eliminata introducendo due nuove relazioni di tipo \textbf{IS\_A}.
+    \newline Anche in questo caso, tali relazioni permettono di mantenere la separazione tra \textit{Meccanico} e \textit{Venditore}, evitando al contempo la presenza di valori nulli.
+    
+\end{itemize}
+
+\vspace{0.5cm}
+\subsection{Schema Relazionale}
