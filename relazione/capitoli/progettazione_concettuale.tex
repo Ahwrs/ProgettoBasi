@@ -32,176 +32,157 @@ Il presente schema E-R non permette di rappresentare direttamente i seguenti vin
     \item Se un veicolo usato viene venduto, allora la \texttt{Data\_Acquisto} deve essere successiva alla \texttt{Data\_Ultima\_Revisione}.
 \end{itemize}
 
+\vspace{1cm}
 
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.7}
-\setlength{\LTpre}{1.8cm}
-\begin{longtable}{|p{2.5cm}|p{3.5cm}|p{5.8cm}|p{3cm}|}
-\caption{\textbf{Descrizione delle entità del database}}
-\label{tab:entita}
+\renewcommand{\arraystretch}{1.8}
+\begin{longtable}{|p{3cm}|p{3.5cm}|>{\RaggedRight\arraybackslash}p{5cm}|p{3cm}|}
+
+\caption*{\textbf{Tabella 1:} Descrizione delle entità del Database}
 \\
 
 \hline
-    \multicolumn{1}{|c|}{\textbf{Entità}} &
-    \multicolumn{1}{c|}{\textbf{Descrizione}} &
-    \multicolumn{1}{c|}{\textbf{Attributi}} &
-    \multicolumn{1}{c|}{\textbf{Identificatore}} \\
+\textbf{Entità} & \textbf{Descrizione} & \textbf{Attributi} & \textbf{Identificatore} \\
 \hline
 \endfirsthead
 
 \hline
-    \textbf{Entità} &
-    \textbf{Descrizione} &
-    \textbf{Attributi} &
-    \textbf{Identificatore}
-\\
+\textbf{Entità} & \textbf{Descrizione} & \textbf{Attributi} & \textbf{Identificatore} \\
 \hline
 \endhead
 
+Veicolo &
+Veicolo generico &
+VIN, Anno\_Immatricolazione &
+\textit{VIN} \\
 \hline
-    Veicolo &
-    Veicolo generico &
-    \textit{VIN}, \textit{Anno\_Immatricolazione} &
-    \textit{VIN}
-    \\
+
+Veicolo\_Nuovo &
+Veicolo nuovo &
+Garanzia &
+\textit{VIN (Ereditato)} \\
 \hline
-    Veicolo\_Nuovo &
-    Veicolo nuovo &
-    \textit{Garanzia} &
-    \textit{VIN} (ereditato)
-    \\
+
+Veicolo\_Usato &
+Veicolo usato &
+Numero\_Proprietari, Data\_Ultima\_Revisione &
+\textit{VIN (Ereditato)} \\
 \hline
-    Veicolo\_Usato &
-    Veicolo usato &
-    \textit{Numero\_Proprietari}, \textit{Data\_Ultima\_Revisione} &
-    \textit{VIN} (ereditato)
-    \\
+
+Cliente &
+Cliente del concessionario &
+Codice\_Fiscale, Nome, Cognome, Data\_Nascita, Telefono &
+\textit{Codice\_Fiscale} \\
 \hline
-    Cliente &
-    Cliente del concessionario &
-    \textit{Codice\_Fiscale}, \textit{Nome}, \textit{Cognome}, \textit{Data\_Nascita}, \textit{Telefono} &
-    \textit{Codice\_Fiscale}
-    \\
+
+Dipendente &
+Dipendente generico &
+Matricola, Data\_Assunzione, Stipendio &
+\textit{Matricola} \\
 \hline
-    Dipendente &
-    Dipendente generico &
-    \textit{Matricola}, \textit{Data\_Assunzione}, \textit{Stipendio} &
-    \textit{Matricola}
-    \\
+
+Meccanico &
+Dipendente meccanico &
+Livello\_Aziendale, Specializzazione &
+\textit{Matricola (Ereditato)} \\
 \hline
-    Meccanico &
-    Dipendente meccanico &
-    \textit{Livello\_Aziendale}, \textit{Specializzazione} &
-    \textit{Matricola} (ereditato)
-    \\
+
+Venditore &
+Dipendente venditore &
+Totale\_Vendite, Percentuale\_Commissione &
+\textit{Matricola (Ereditato)} \\
 \hline
-    Venditore &
-    Dipendente venditore &
-    \textit{Totale\_Vendite}, \textit{Percentuale\_Commissione} &
-    \textit{Matricola} (ereditato)
-    \\
+
+Modello &
+Forma e dimensione della BMW &
+Denominazione\_Commerciale, Codice\_Telaio, Anno\_Prima\_Produzione &
+\textit{(Denominazione\_\allowbreak Commerciale, Codice\_Telaio)} \\
 \hline
-    Modello &
-    Forma e dimensione del veicolo &
-    \textit{Denominazione\_Commerciale}, \textit{Codice\_Telaio}, \textit{Anno\_Prima\_Produzione} &
-    (\textit{Denominazione\_\allowbreak Commerciale}, \textit{Codice\_Telaio})
-    \\
+
+Motore &
+Prodotto motore &
+Codice\_Motore, \newline Cilindrata, Frazionamento, Alimentazione &
+\textit{Codice\_Motore} \\
 \hline
-    Motore &
-    Prodotto motore &
-    \textit{Codice\_Motore}, \textit{Cilindrata}, \textit{Frazionamento}, \textit{Alimentazione} &
-    \textit{Codice\_Motore}
-    \\
+
+Optional &
+Prodotto opzionale nel veicolo &
+Codice\_Optional, Nome, Categoria &
+\textit{Codice\_Optional} \\
 \hline
-    Optional &
-    Prodotto opzionale del veicolo &
-    \textit{Codice\_Optional}, \textit{Nome}, \textit{Categoria} &
-    \textit{Codice\_Optional}
-    \\
+
+Ricambio &
+Pezzo di ricambio &
+OEM, Nome, Prezzo\_Unitario &
+\textit{OEM} \\
 \hline
-    Ricambio &
-    Pezzo di ricambio &
-    \textit{OEM}, \textit{Nome}, \textit{Prezzo\_Unitario} &
-    \textit{OEM}
-    \\
+
+Intervento &
+Intervento di officina &
+Numero\_Intervento, Data\_\allowbreak Intervento, Ore\_Manodopera, Costo &
+\textit{Numero\_Intervento} \\
 \hline
-    Intervento &
-    Intervento di officina &
-    \textit{Numero\_Intervento}, \newline \textit{Data\_Intervento}, \textit{Ore\_Manodopera}, \textit{Costo} &
-    \textit{Numero\_Intervento}
-    \\
-\hline
+
 \end{longtable}
 
+\vspace{1cm}
 
+\begin{longtable}{|p{3cm}|p{5cm}|>{\RaggedRight\arraybackslash}p{3.5cm}|p{3cm}|}
 
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.7}
-\setlength{\LTpre}{1.8cm}
-\begin{longtable}{|p{2.8cm}|p{5cm}|p{4.5cm}|p{2.5cm}|}
-\caption{\textbf{Descrizione delle relazioni del database}}
-\label{tab:relazioni}
+\caption*{\textbf{Tabella 2:} Descrizione delle relazioni del Database}
 \\
 
 \hline
-    \multicolumn{1}{|c|}{\textbf{Relazione}} &
-    \multicolumn{1}{c|}{\textbf{Descrizione}} &
-    \multicolumn{1}{c|}{\textbf{Componenti}} &
-    \multicolumn{1}{c|}{\textbf{Attributi}} \\
+\textbf{Relazione} & \textbf{Descrizione} & \textbf{Componenti} & \textbf{Attributi} \\
 \hline
 \endfirsthead
 
 \hline
-    \textbf{Relazione} &
-    \textbf{Descrizione} &
-    \textbf{Componenti} &
-    \textbf{Attributi}
-\\
+\textbf{Relazione} & \textbf{Descrizione} & \textbf{Componenti} & \textbf{Attributi} \\
 \hline
 \endhead
 
+Acquisto &
+Acquisto di un veicolo da parte di un cliente assistito da un venditore &
+Cliente, Veicolo, Venditore &
+\textit{Data\_Acquisto, Prezzo} \\
 \hline
-    Acquisto &
-    Acquisto di un veicolo da parte di un cliente assistito da un
-    venditore &
-    \textit{Cliente}, \textit{Veicolo}, \textit{Venditore} &
-    \textit{Data\_Acquisto}, \textit{Prezzo}
-    \\
+
+Sottoposto &
+Un veicolo viene sottoposto a un intervento &
+Veicolo, Intervento &
+- \\
 \hline
-    Sottoposto &
-    Un veicolo viene sottoposto a
-    un intervento &
-    \textit{Veicolo}, \textit{Intervento} &
-    \\
+
+Esegue &
+Un meccanico esegue un intervento &
+Meccanico, Intervento &
+- \\
 \hline
-    Esegue &
-    Un meccanico esegue un intervento &
-    \textit{Meccanico}, \textit{Intervento} &
-    \\
+
+Utilizza &
+Un intervento utilizza ricambi &
+Intervento, Ricambio &
+\textit{Quantità} \\
 \hline
-    Utilizza &
-    Un intervento utilizza ricambi &
-    \textit{Intervento}, \textit{Ricambio} &
-    \textit{Quantità}
-    \\
+
+Motorizzato\_Da &
+Un modello è equipaggiato con un motore (con una certa potenza) &
+Modello, Motore &
+\textit{Potenza} \\
 \hline
-    Motorizzato\_Da &
-    Un modello è equipaggiato 
-    con un motore (con una certa potenza) &
-    \textit{Modello}, \textit{Motore} &
-    \textit{Potenza}
-    \\
+
+Include &
+Un veicolo nuovo include optional &
+Veicolo\_Nuovo, Optional &
+- \\
 \hline
-    Include &
-    Un veicolo nuovo include optional &
-    \textit{Veicolo\_Nuovo}, \textit{Optional} &
-    \\
+
+Instance\_Of &
+Un veicolo è istanza di un modello &
+Veicolo, Modello &
+- \\
 \hline
-    Istance\_Of &
-    Un veicolo è istanza di un modello &
-    \textit{Veicolo}, \textit{Modello} &
-    \\
-\hline
+
 \end{longtable}
 
 
