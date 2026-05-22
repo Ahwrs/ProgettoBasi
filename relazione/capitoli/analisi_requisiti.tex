@@ -4,6 +4,7 @@ Questa sezione riassume i requisiti a cui deve sottostare la base di dati per la
 gestione della concessionaria BMW e relativa officina.
 
 \begin{description}
+
     \item[Veicolo] Ogni veicolo è identificato dal Vehicle Identification Number (VIN),
     un codice alfanumerico di 17 caratteri univoco per ogni vettura esistente
     (immatricolata o meno).
@@ -12,7 +13,8 @@ gestione della concessionaria BMW e relativa officina.
         \item Anno di immatricolazione
         \item Modello commerciale
     \end{itemize}
-    I veicoli si suddividono in nuovi e usati 
+    I veicoli si suddividono in modo totale e disgiunto in nuovi e usati.
+
     \item[Veicolo nuovo] Un veicolo che non è mai stato immatricolato. Vengono
     registrati ulteriori dati:
     \begin{itemize}
@@ -25,6 +27,13 @@ gestione della concessionaria BMW e relativa officina.
     \begin{itemize}
         \item Numero di proprietari passati
         \item Data dell'ultima revisione effettuata
+    \end{itemize}
+
+    \item[Optional] Viene identificato da un codice univoco assegnato da casa madre.
+    Vengono registrati anche:
+    \begin{itemize}
+        \item Nome
+        \item Categoria
     \end{itemize}
 
     \item[Modello] Il modello definisce l'architettura costruttiva e le specifiche
@@ -48,8 +57,9 @@ gestione della concessionaria BMW e relativa officina.
     Il sistema tiene anche traccia del propulsore montato su un determinato modello
     e la sua potenza specifica. Tuttavia, tali informazioni dipendono dall'accoppiamento
     tecnico con la motorizzazione specifica.
+
     \item[Motore] Specifico propulsore montato sul veicolo.
-    E' identificato da un codice alfanumerico stabilito direttamente da casa madre.
+    È identificato da un codice alfanumerico stabilito direttamente da casa madre.
     Inoltre, presenta le seguenti caratteristiche:
     \begin{itemize}
         \item \textbf{Cilindrata}: Quantità d'aria volumetrica aspirata dal motore
@@ -81,7 +91,7 @@ gestione della concessionaria BMW e relativa officina.
         \item Data di assunzione
         \item Stipendio
     \end{itemize}
-    I dipendenti si dividono in meccanici e venditori
+    I dipendenti si dividono in modo totale e disgiunto in meccanici e venditori
 
     \item[Meccanico] Oltre alle informazioni già presenti, vengono memorizzati anche:
     \begin{itemize}
@@ -97,4 +107,39 @@ gestione della concessionaria BMW e relativa officina.
     Un venditore viene registrato dal momento in cui viene assunto, anche se non ha
     ancora concluso alcuna vendita. Un veicolo può essere venduto o invenduto.
 
+    \item[Ricambio] Componente da usare in un intervento in sostituzione a quello
+    usurato. Viene identificato dal codice OEM (Original Equipment Manufacturer),
+    un codice univoco che il produttore assegna a ciascun componente originale.
+    Inoltre, vengono memorizzati:
+    \begin{itemize}
+        \item Nome del componente
+        \item Prezzo unitario
+    \end{itemize}
+
+    \item[Intervento] Rappresenta la singola commessa di manutenzione 
+    (ordinaria o straordinaria) presa in carico dall'officina. Poiché una riparazione 
+    è intrinsecamente legata all'auto su cui viene eseguita, l'intervento è 
+    identificato univocamente in modo composto: tramite il VIN del veicolo associato 
+    e un numero progressivo che traccia l'ordine cronologico delle operazioni
+    subite da quella specifica vettura.
+    Inoltre, vengono salvati:
+    \begin{itemize}
+        \item Ore di manodopera
+        \item Costo della manodopera
+        \item Data dell'intervento
+    \end{itemize}
+    Per sua natura, di un intervento è necessario tenere traccia anche del meccanico
+    (unico) che ci lavora e dei pezzi di ricambio utilizzati, registrando anche la
+    quantità.
+
+    \item[Acquisto] Viene identificato dal cliente, dal venditore e dall'auto venduta.
+    Come già accennato, un venditore viene registrato immediatamente all'assunzione,
+    mentre i dati del cliente vengono memorizzati solo ad acquisto concluso.
+    Un cliente può acquistare o aver acquistato più auto. Tuttavia, un'auto può essere
+    venduta ad una sola persona. Di un acquisto vengono inoltre registrati:
+    \begin{itemize}
+        \item Data di acquisto
+        \item Prezzo di vendita
+    \end{itemize}
+    
 \end{description}
