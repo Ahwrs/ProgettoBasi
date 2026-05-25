@@ -88,7 +88,7 @@ void esegui_e_stampa(PGconn* conn, const char* query) {
         PQclear(risultato);
         return; // Uscita anticipata dalla funzione, dato che sarebbe insensato continuare
     }
-    
+
     int numero_attributi = PQnfields(risultato);
     int numero_tuple = PQntuples(risultato);
 
@@ -114,6 +114,31 @@ void esegui_e_stampa(PGconn* conn, const char* query) {
 
 int main() {
     PGconn* conn = connetti_al_db();
+    int scelta = -1;
 
-    mostra_menu();
+    char* array_query[] = {
+        "Query 1",
+        "Query 2",
+        "Query 3",
+        "Query 4",
+        "Query 5"
+    };
+
+    while (scelta != 0) {
+        scelta = mostra_menu();
+
+        if (scelta == 0) {
+            printf("\nUscita dall'applicazione. Arrivederci!\n");
+            break; 
+        }
+        int indice = scelta - 1;
+
+        if (indice == 4) {
+            // Esegui parametrica
+            esegui_e_stampa(conn, array_query[indice]);
+        }
+        else {
+            esegui_e_stampa(conn, array_query[indice]);
+        }
+    }
 }
