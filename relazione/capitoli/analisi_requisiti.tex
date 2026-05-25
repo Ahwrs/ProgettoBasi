@@ -8,33 +8,17 @@ gestione della concessionaria BMW e relativa officina.
     \item[Veicolo] Ogni veicolo è identificato dal Vehicle Identification Number (VIN),
     un codice alfanumerico di 17 caratteri univoco per ogni vettura esistente
     (immatricolata o meno).
-    Le caratteristiche di un veicolo sono:
-    \begin{itemize}
-        \item Anno di immatricolazione
-        \item Modello commerciale
-    \end{itemize}
+    Le caratteristiche aggiuntive di un veicolo sono anno di immatricolazione e modello commerciale
     I veicoli si suddividono in modo totale e disgiunto in nuovi e usati.
 
     \item[Veicolo nuovo] Un veicolo che non è mai stato immatricolato. Vengono
-    registrati ulteriori dati:
-    \begin{itemize}
-        \item Periodo di garanzia
-        \item Insieme degli accessori opzionali di cui dispone
-    \end{itemize}
+    registrati anche periodo di garanzia e l'insieme degli accessori opzionali di cui dispone
 
     \item[Veicolo usato] Un veicolo che è già stato immatricolato e, successivamente,
-    venduto dal precedente proprietario. I dati ulteriori registrati sono:
-    \begin{itemize}
-        \item Numero di proprietari passati
-        \item Data dell'ultima revisione effettuata
-    \end{itemize}
+    venduto dal precedente proprietario. Inoltre, è necessario memorizzare il numero di proprietari passati e la data dell'ultima revisione effettuata
 
     \item[Optional] Viene identificato da un codice univoco assegnato da casa madre.
-    Vengono registrati anche:
-    \begin{itemize}
-        \item Nome
-        \item Categoria
-    \end{itemize}
+    Sono dotati di un nome e di una categoria.
 
     \item[Modello] Il modello definisce l'architettura costruttiva e le specifiche
     di una determinata famiglia di veicoli. Viene identificata dall'insieme di:
@@ -75,46 +59,24 @@ gestione della concessionaria BMW e relativa officina.
     ma range di potenza diversi.
 
     \item[Cliente] Viene identificato dal codice fiscale. Vengono salvate anche
-    le informazioni relative a:
-    \begin{itemize}
-        \item Nome
-        \item Cognome
-        \item Data di nascita
-        \item Numero di telefono
-    \end{itemize}
+    le informazioni relative a nome, cognome, data di nascita e numero di telefono.
 
     \item[Dipendente] Viene identificato dal numero di matricola aziendale. Altre
-    caratteristiche:
-    \begin{itemize}
-        \item Nome
-        \item Cognome
-        \item Data di assunzione
-        \item Stipendio
-    \end{itemize}
-    I dipendenti si dividono in modo totale e disgiunto in meccanici e venditori
+    caratteristiche sono nome, cognome, data di assunzione e stipendio.
+    I dipendenti si dividono in modo totale e disgiunto in meccanici e venditori.
 
-    \item[Meccanico] Oltre alle informazioni già presenti, vengono memorizzati anche:
-    \begin{itemize}
-        \item Specializzazione
-        \item Livello nella gerarchia aziendale
-    \end{itemize}
+    \item[Meccanico] Oltre alle informazioni già presenti, vengono memorizzati anche
+    specializzazione e livello nella gerarchia aziendale.
     
-    \item[Venditore] Oltre alle informazioni già presenti, vengono memorizzati anche:
-    \begin{itemize}
-        \item Numero totale di vendite effettuate
-        \item Percentuale ottenuta sulla vendita.
-    \end{itemize}
+    \item[Venditore] Oltre alle informazioni già presenti, vengono memorizzati anche
+    il numero totale di vendite effettuate e la percentuale ottenuta su ognuna.
     Un venditore viene registrato dal momento in cui viene assunto, anche se non ha
     ancora concluso alcuna vendita. Un veicolo può essere venduto o invenduto.
 
     \item[Ricambio] Componente da usare in un intervento in sostituzione a quello
     usurato. Viene identificato dal codice OEM (Original Equipment Manufacturer),
     un codice univoco che il produttore assegna a ciascun componente originale.
-    Inoltre, vengono memorizzati:
-    \begin{itemize}
-        \item Nome del componente
-        \item Prezzo unitario
-    \end{itemize}
+    Inoltre, vengono memorizzati il nome del componente e il prezzo unitario.
 
     \item[Intervento] Rappresenta la singola commessa di manutenzione 
     (ordinaria o straordinaria) presa in carico dall'officina. Poiché una riparazione 
@@ -122,12 +84,8 @@ gestione della concessionaria BMW e relativa officina.
     identificato univocamente in modo composto: tramite il VIN del veicolo associato 
     e un numero progressivo che traccia l'ordine cronologico delle operazioni
     subite da quella specifica vettura.
-    Inoltre, vengono salvati:
-    \begin{itemize}
-        \item Ore di manodopera
-        \item Costo della manodopera
-        \item Data dell'intervento
-    \end{itemize}
+    Inoltre, vengono salvati la data dell'intervento, le ore di manodopera e il
+    suo costo.
     Per sua natura, di un intervento è necessario tenere traccia anche del meccanico
     (unico) che ci lavora e dei pezzi di ricambio utilizzati, registrando anche la
     quantità.
@@ -136,10 +94,7 @@ gestione della concessionaria BMW e relativa officina.
     Come già accennato, un venditore viene registrato immediatamente all'assunzione,
     mentre i dati del cliente vengono memorizzati solo ad acquisto concluso.
     Un cliente può acquistare o aver acquistato più auto. Tuttavia, un'auto può essere
-    venduta ad una sola persona. Di un acquisto vengono inoltre registrati:
-    \begin{itemize}
-        \item Data di acquisto
-        \item Prezzo di vendita
-    \end{itemize}
+    venduta ad una sola persona. Di un acquisto vengono inoltre registrati data di
+    acquisto e prezzo di vendita.
     
 \end{description}

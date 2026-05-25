@@ -80,7 +80,36 @@ int mostra_menu() {
 }
 
 void esegui_e_stampa(PGconn* conn, const char* query) {
+    PGresult* risultato = PQexec(conn, query);
 
+    if (PQresultStatus(risultato) != PGRES_TUPLES_OK) {          // PGRES_TUPLES_OK funziona solo in caso di interrogazioni (SELECT).
+        printf("\nERRORE CRITICO: Esecuzione fallita!\n");       // In questo caso va bene, ma se si volesse generalizzare questa
+        printf("Motivo: %s\n", PQerrorMessage(conn));            // funzione sarebbe necessario usare PGRES_COMMAND_OK
+        PQclear(risultato);
+        return; // Uscita anticipata dalla funzione, dato che sarebbe insensato continuare
+    }
+    
+    int numero_attributi = PQnfields(risultato);
+    int numero_tuple = PQntuples(risultato);
+
+    for (int i = 0; i < numero_attributi; i++) {
+        printf("%-20s", PQfname(risultato, i)); // Stampa i titoli degli attributi
+    }
+    printf("\n");
+
+    for (int i = 0; i < numero_attributi; i++) {
+        printf("--------------------");
+    }
+    printf("\n");
+
+    for (int i = 0; i < numero_tuple; i++) {
+        for (int j = 0; j < numero_attributi; j++) {
+            printf("%-20s", PQgetvalue(risultato, i, j));
+        }
+        printf("\n");
+    }
+
+    PQclear(risultato);
 }
 
 int main() {
