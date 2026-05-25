@@ -26,12 +26,18 @@ Un venditore può non essere ancora associato ad alcuna vendita, così come un m
 
 La generalizzazione di \textit{Dipendente} è quindi classificata come \textbf{totale e disgiunta} nelle specializzazioni \textit{Venditore} e \textit{Meccanico}, poiché nella realtà modellata queste rappresentano le uniche tipologie di dipendenti rilevanti.
 
-La \textbf{Tabella 1} riassume tutte le entità e le relazioni individuate dall'analisi dei requisiti e rappresentate nel diagramma E-R, con i relativi attributi rilevanti. Per ciascuna entità viene inoltre indicato l'identificatore.
+Le \textbf{Tabelle 1 e 2} riassumono tutte le entità e le relazioni individuate dall'analisi dei requisiti e rappresentate nel diagramma E-R, con i relativi attributi rilevanti. Per ciascuna entità viene inoltre indicato l'identificatore.
 
 Il presente schema E-R non permette di rappresentare direttamente i seguenti vincoli:
 
 \begin{itemize}
-    \item Se un veicolo usato viene venduto, allora la \texttt{Data\_Acquisto} deve essere successiva alla \texttt{Data\_Ultima\_Revisione}.
+    \item Se un veicolo generico viene venduto, allora la \texttt{Data\_Acquisto} deve essere successiva all' \texttt{Anno\_Immatricolazione}.
+    \item Se un veicolo \textbf{usato} viene venduto, allora la \texttt{Data\_Acquisto} deve essere successiva alla \texttt{Data\_Ultima\_Revisione}.
+    \item Se un veicolo viene sottoposto ad un intervento, allora la \texttt{Data\_Intervento} deve essere successiva all' \texttt{Anno\_Immatricolazione}.
+    \item Ogni valore numerico (Potenza, Cilindrata, Costo, Ore\_Manodopera, ecc..) presente nel sistema deve avere un valore non negativo. Fatta eccezione per codici specifici (es. VIN, OEM, ecc.).
+    \item Sebbene nel diagramma E‑R la relazione tra \textit{Venditore} e \textit{Acquisto} presenti cardinalità (0,N) dal lato del venditore (per consentire la presenza di venditori neoassunti che non hanno ancora concluso alcuna vendita), la partecipazione dell’entità \textit{Acquisto} alla relazione è totale: ogni acquisto deve essere necessariamente gestito da un venditore.
+
+
 \end{itemize}
 
 \vspace{1cm}
@@ -78,7 +84,7 @@ Codice\_Fiscale, Nome, Cognome, Data\_Nascita, Telefono &
 
 Dipendente &
 Dipendente generico &
-Matricola, Data\_Assunzione, Stipendio &
+Matricola, Nome, Cognome Data\_Assunzione, Stipendio &
 \textit{Matricola} \\
 \hline
 

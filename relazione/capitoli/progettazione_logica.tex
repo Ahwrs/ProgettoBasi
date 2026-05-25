@@ -255,4 +255,90 @@ Di seguito vengono quindi elencate le trasformazioni duelle due generalizzazioni
 \end{itemize}
 
 \vspace{0.5cm}
+\subsection{Reificazione della Relazione Ternaria Acquisto}
+La relazione ternaria ACQUISTO (tra CLIENTE, VEICOLO, VENDITORE) viene trasformata in un’entità. Dato il vincolo (0,1) dal lato VEICOLO (un veicolo può essere oggetto al più di un acquisto), la chiave primaria dell’entità ACQUISTO è VIN. Le relazioni binarie risultanti sono:
+
+\begin{itemize}
+    \item \textbf{EFFETTUA} tra \textit{Cliente} e \textit{Acquisto}: (1,N) e (1,1)
+    \item \textbf{OGGETTO\_DI} tra \textit{Veicolo} e \textit{Acquisto}: (0,1) e (1,1)
+    \item \textbf{GESTISCE} tra \textit{Venditore} e \textit{Acquisto}: (0,N) e (1,1)
+\end{itemize}
+L'entità Acquisto possiede gli attributi Data\_Acquisto e Prezzo (entrambi obbligatori).
+
+\vspace{0.5cm}
 \subsection{Schema Relazionale}
+\begin{figure}[H]
+    \begin{adjustwidth}{-2cm}{-2cm}
+        \centering
+        \label{fig:er-restructured}
+        \caption{Diagramma Ristrutturato}
+        \includegraphics[width=1.25\textwidth, keepaspectratio]{allegati/Schema Ristrutturato.jpg}
+    \end{adjustwidth}
+\end{figure}
+
+Il diagramma E‑R ristrutturato in \textbf{Figura 2} deriva dallo schema concettuale originario mediante le trasformazioni descritte nelle sezioni precedenti. 
+\newline Dopo la ristrutturazione compaiono due nuovi vincoli che non possono essere rappresentati tramite lo schema stesso, ovvero:
+\begin{itemize}
+    \item Se un \textit{Dipendente} è un \textit{Meccanico}, allora la sua matricola dovrà essere obbligatoriamente presente solo come occorrenza nell'entità \textit{Meccanico}, ma non in quella di \textit{Venditore}, e viceversa.
+    \item Se un \textit{Veicolo} è usato, allora il suo VIN dovrà essere obbligatoriamente presente solo come occorrenza nell'entità \textit{Veicolo\_Usato}, ma non in quella di \textit{Veicolo\_Nuovo}, e viceversa.
+\end{itemize}
+Di seguito si illustra lo schema logico relazionale ottenuto da tale ristrutturazione: 
+\begin{itemize}
+    \item \textbf{VEICOLO}( \underline{VIN}, Anno\_Immatricolazione, Denominazione\_Commerciale, Codice\_Telaio ) 
+    \begin{itemize}
+        \item VEICOLO.(Denominazione\_Commerciale, Codice\_Telaio) $\rightarrow$ MODELLO.(Denominazione\_Commerciale, Codice\_Telaio)
+    \end{itemize}
+    \item \textbf{VEICOLO\_USATO}( \underline{VIN}, Data\_Ultima\_Revisione, Numero\_Proprietari )
+    \begin{itemize}
+        \item VEICOLO\_USATO.VIN $\rightarrow$ VEICOLO.VIN
+    \end{itemize}
+    \item \textbf{VEICOLO\_NUOVO}( \underline{VIN}, Garanzia )
+    \begin{itemize}
+        \item VEICOLO\_NUOVO.VIN $\rightarrow$ VEICOLO.VIN
+    \end{itemize}
+    \item \textbf{OPTIONAL}( \underline{Codice\_Optional}, Categoria, Nome )
+    \item \textbf{MOTORE}(\underline{Codice\_Motore}, Cilindrata, Frazionamento, Alimentazione )
+    \item \textbf{MODELLO}( \underline{Denominazione\_Commerciale, Codice\_Telaio}, Anno\_Prima\_Produzione, Motore, Potenza\_Motore)
+    \begin{itemize}
+        \item MODELLO.Motore $\rightarrow$ MOTORE.Codice\_Motore
+    \end{itemize}
+    \item \textbf{RICAMBIO}( \underline{OEM}, Nome, Prezzo\_Unitario )
+    \item \textbf{INTERVENTO}( \underline{Veicolo, Numero\_Intervento}, Data\_Intervento, Costo, Ore\_Manodopera, Meccanico )
+    \begin{itemize}
+        \item INTERVENTO.Veicolo $\rightarrow$ VEICOLO.VIN
+        \item INTERVENTO.Meccanico $\rightarrow$ MECCANICO.Matricola
+    \end{itemize}
+    \item \textbf{CLIENTE}( \underline{Codice\_Fiscale}, Nome, Cognome, Data\_Nascita, Telefono )
+    \item \textbf{DIIPENDENTE}( \underline{Matricola}, Nome, Cognome, Data\_Assunzione, Stipendio )
+    \item \textbf{MECCANICO}( \underline{Matricola}, Specializzazione, Livello\_Aziendale )
+    \begin{itemize}
+        \item MECCANICO.Matricola $\rightarrow$ DIPENDENTE.Matricola
+    \end{itemize}
+    \item \textbf{VENDITORE}( \underline{Matricola}, Percentuale\_Commissione )
+    \begin{itemize}
+        \item VENDITORE.Matricola $\rightarrow$ DIPENDENTE.Matricola
+    \end{itemize}
+    \item \textbf{ACQUISTO}( \underline{Veicolo}, Data\_Acquisto, Cliente, Venditore, Prezzo )
+    \begin{itemize}
+        \item ACQUISTO.Veicolo $\rightarrow$ VEICOLO.VIN
+        \item ACQUISTO.Cliente $\rightarrow$ CLIENTE.Codice\_Fiscale
+        \item ACQUISTO.Venditore $\rightarrow$ VENDITORE.Matricola
+    \end{itemize}
+\end{itemize}
+
+\vspace{0.5cm}
+Di seguito si elencano le tabelle ottenute dalle relazioni molti a molti: 
+\begin{itemize}
+    \item \textbf{INCLUDE}( \underline{Optional, Veicolo} )
+    \begin{itemize}
+        \item INCLUDE.Optional $\rightarrow$ OPTIONAL.Codice\_Optional
+        \item INCLUDE.Veicolo $\rightarrow$ VEICOLO\_NUOVO.VIN
+    \end{itemize}
+    \item \textbf{UTILIZZA}( \underline{Ricambio, Numero\_Intervento, Veicolo}, Quantità )
+    \begin{itemize}
+        \item UTILIZZA.Ricambio $\rightarrow$ RICAMBIO.OEM
+        \item UTILIZZA.Numero\_Intervento $\rightarrow$ INTERVENTO.Numero\_Intervento
+        \item UTILIZZA.Veicolo $\rightarrow$ INTERVENTO.Veicolo
+    \end{itemize}
+\end{itemize}
+
