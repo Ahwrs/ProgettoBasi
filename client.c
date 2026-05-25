@@ -116,7 +116,7 @@ int main() {
     PGconn* conn = connetti_al_db();
     int scelta = -1;
 
-    char* array_query[] = {
+    const char* array_query[] = {
         "Query 1",
         "Query 2",
         "Query 3",
@@ -126,19 +126,18 @@ int main() {
 
     while (scelta != 0) {
         scelta = mostra_menu();
-
-        if (scelta == 0) {
-            printf("\nUscita dall'applicazione. Arrivederci!\n");
-            break; 
-        }
-        int indice = scelta - 1;
-
-        if (indice == 4) {
-            // Esegui parametrica
-            esegui_e_stampa(conn, array_query[indice]);
+        if (scelta != 0) {
+            if (scelta == 5) {
+                // Composizione query parametrica
+                esegui_e_stampa(conn, array_query[scelta-1]);
+            }
+            else esegui_e_stampa(conn, array_query[scelta-1]);
         }
         else {
-            esegui_e_stampa(conn, array_query[indice]);
+            printf("\nUscita dall'applicazione. Arrivederci!\n");
         }
     }
+
+    PQfinish(conn);
+    return 0;
 }
