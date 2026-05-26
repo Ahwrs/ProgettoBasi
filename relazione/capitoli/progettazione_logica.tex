@@ -256,7 +256,7 @@ Di seguito vengono quindi elencate le trasformazioni duelle due generalizzazioni
 
 \vspace{0.5cm}
 \subsection{Reificazione della Relazione Ternaria Acquisto}
-La relazione ternaria ACQUISTO (tra CLIENTE, VEICOLO, VENDITORE) viene trasformata in un’entità. Dato il vincolo (0,1) dal lato VEICOLO (un veicolo può essere oggetto al più di un acquisto), la chiave primaria dell’entità ACQUISTO è VIN. Le relazioni binarie risultanti sono:
+La relazione ternaria ACQUISTO (tra CLIENTE, VEICOLO, VENDITORE) viene trasformata in un'entità. Dato il vincolo (0,1) dal lato VEICOLO (un veicolo può essere oggetto al più di un acquisto), la chiave primaria dell'entità ACQUISTO è VIN. Le relazioni binarie risultanti sono:
 
 \begin{itemize}
     \item \textbf{EFFETTUA} tra \textit{Cliente} e \textit{Acquisto}: (1,N) e (1,1)
@@ -276,7 +276,7 @@ L'entità Acquisto possiede gli attributi Data\_Acquisto e Prezzo (entrambi obbl
     \end{adjustwidth}
 \end{figure}
 
-Il diagramma E‑R ristrutturato in \textbf{Figura 2} deriva dallo schema concettuale originario mediante le trasformazioni descritte nelle sezioni precedenti. 
+Il diagramma E-R ristrutturato in \textbf{Figura 2} deriva dallo schema concettuale originario mediante le trasformazioni descritte nelle sezioni precedenti. 
 \newline Dopo la ristrutturazione compaiono due nuovi vincoli che non possono essere rappresentati tramite lo schema stesso, ovvero:
 \begin{itemize}
     \item Se un \textit{Dipendente} è un \textit{Meccanico}, allora la sua matricola dovrà essere obbligatoriamente presente solo come occorrenza nell'entità \textit{Meccanico}, ma non in quella di \textit{Venditore}, e viceversa.

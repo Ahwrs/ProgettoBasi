@@ -21,7 +21,7 @@ L'analisi dei requisiti pone particolare attenzione anche agli interventi effett
 
 Ogni acquisto coinvolge un cliente, un veicolo e un venditore, registrando inoltre la data e il prezzo della vendita. Un cliente può effettuare più acquisti nel tempo, mentre un determinato veicolo può essere associato al più ad un acquisto.
 
-I dipendenti della concessionaria si distinguono in meccanici e venditori. Per i meccanici si vuole tenere traccia del livello aziendale e della specializzazione, mentre per i venditori vengono memorizzati il totale delle vendite effettuate e la percentuale di commissione.
+I dipendenti della concessionaria si distinguono in meccanici e venditori. Per i meccanici si vuole tenere traccia del livello aziendale e della specializzazione, mentre per i venditori vengono memorizzati il totale delle vendite effettuate e la percentuale di commissione ottenuta dalle stesse.
 
 Un venditore può non essere ancora associato ad alcuna vendita, così come un meccanico può non aver ancora eseguito interventi, al fine di consentire la registrazione nel sistema di dipendenti appena assunti.
 
@@ -36,9 +36,8 @@ Il presente schema E-R non permette di rappresentare direttamente i seguenti vin
     \item Se un veicolo \textbf{usato} viene venduto, allora la \texttt{Data\_Acquisto} deve essere successiva alla \texttt{Data\_Ultima\_Revisione}.
     \item Se un veicolo viene sottoposto ad un intervento, allora la \texttt{Data\_Intervento} deve essere successiva all' \texttt{Anno\_Immatricolazione}.
     \item Ogni valore numerico (Potenza, Cilindrata, Costo, Ore\_Manodopera, ecc..) presente nel sistema deve avere un valore non negativo. Fatta eccezione per codici specifici (es. VIN, OEM, ecc.).
-    \item Nel diagramma E‑R la relazione tra \textit{Venditore} e \textit{Acquisto} presenta cardinalità (0,N) dal lato del venditore (per consentire la presenza di venditori neoassunti che non hanno ancora concluso alcuna vendita). Tuttavia la partecipazione dell'entità alla relazione \textit{Acquisto} è totale: ogni acquisto deve essere necessariamente gestito da un venditore.
-
-    \item Nel diagramma E‑R la relazione tra \textit{Modello} e \textit{Motore} presenta cardinalità (0,N) dal lato del motore (poiché un motore può esistere anche senza essere installato su alcun modello). Tuttavia la partecipazione dell'entità alla relazione \textit{Motorizzato\_Da} è totale: ogni modello deve essere necessariamente equipaggiato da un motore.
+    \item Nel diagramma E-R la relazione tra \textit{Venditore} e \textit{Acquisto} presenta cardinalità (0,N) dal lato del venditore (per consentire la presenza di venditori neoassunti che non hanno ancora concluso alcuna vendita). Tuttavia la partecipazione dell'entità alla relazione \textit{Acquisto} è totale: ogni acquisto deve essere necessariamente gestito da un venditore.
+    \item Nel diagramma E-R la relazione tra \textit{Modello} e \textit{Motore} presenta cardinalità (0,N) dal lato del motore (poiché un motore può esistere anche senza essere installato su alcun modello). Tuttavia la partecipazione dell'entità alla relazione \textit{Motorizzato\_Da} è totale: ogni modello deve essere necessariamente equipaggiato da un motore.
 
 \end{itemize} 
 
@@ -199,5 +198,5 @@ Veicolo, Modello &
 
 \vspace{0.5cm}
 
-Si noti che l'identificatore dell'entità \texttt{Intervento} include la relazione con un’altra entità.\newline
+Si noti che l'identificatore dell'entità \texttt{Intervento} include la relazione con un'altra entità.\newline
 Infine, si noti che l'identificatore dell'entità \texttt{Modello} è un identificatore composto da due attributi.

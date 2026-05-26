@@ -129,7 +129,7 @@ int main() {
         if (scelta != 0) {
             if (scelta == 5) {
                 // Composizione query parametrica
-                esegui_e_stampa(conn, array_query[scelta-1]);
+                esegui_e_stampa(conn, array_query[4]);
             }
             else esegui_e_stampa(conn, array_query[scelta-1]);
         }
