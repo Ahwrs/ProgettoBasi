@@ -14,7 +14,8 @@ La \textbf{Figura 1} mostra il diagramma Entità-Relazione (E-R) che riassume i 
 
 Esistono due tipologie di veicoli, nuovi e usati. Per i veicoli nuovi si vuole tenere traccia della garanzia e degli optional di cui dispongono, mentre per i veicoli usati vengono registrati il numero di proprietari precedenti e la data dell'ultima revisione.
 
-Ogni veicolo è istanza di un determinato modello, il quale è a sua volta motorizzato da uno specifico motore. Per ogni associazione tra modello e motore viene inoltre registrata la potenza.
+Ogni veicolo è istanza di un determinato modello, il quale è a sua volta motorizzato da un motore. \newline Un determinato motore può motorizzare diversi modelli, e viceversa. 
+Per ogni associazione tra modello e motore viene inoltre registrata la potenza.
 
 L'analisi dei requisiti pone particolare attenzione anche agli interventi effettuati sui veicoli. Ogni intervento si riferisce ad un solo veicolo ed è eseguito da un meccanico. Durante un intervento possono essere utilizzati uno o più ricambi, dei quali si vuole memorizzare anche la quantità impiegata.
 
@@ -35,10 +36,11 @@ Il presente schema E-R non permette di rappresentare direttamente i seguenti vin
     \item Se un veicolo \textbf{usato} viene venduto, allora la \texttt{Data\_Acquisto} deve essere successiva alla \texttt{Data\_Ultima\_Revisione}.
     \item Se un veicolo viene sottoposto ad un intervento, allora la \texttt{Data\_Intervento} deve essere successiva all' \texttt{Anno\_Immatricolazione}.
     \item Ogni valore numerico (Potenza, Cilindrata, Costo, Ore\_Manodopera, ecc..) presente nel sistema deve avere un valore non negativo. Fatta eccezione per codici specifici (es. VIN, OEM, ecc.).
-    \item Sebbene nel diagramma E‑R la relazione tra \textit{Venditore} e \textit{Acquisto} presenti cardinalità (0,N) dal lato del venditore (per consentire la presenza di venditori neoassunti che non hanno ancora concluso alcuna vendita), la partecipazione dell’entità \textit{Acquisto} alla relazione è totale: ogni acquisto deve essere necessariamente gestito da un venditore.
+    \item Nel diagramma E‑R la relazione tra \textit{Venditore} e \textit{Acquisto} presenta cardinalità (0,N) dal lato del venditore (per consentire la presenza di venditori neoassunti che non hanno ancora concluso alcuna vendita). Tuttavia la partecipazione dell'entità alla relazione \textit{Acquisto} è totale: ogni acquisto deve essere necessariamente gestito da un venditore.
 
+    \item Nel diagramma E‑R la relazione tra \textit{Modello} e \textit{Motore} presenta cardinalità (0,N) dal lato del motore (poiché un motore può esistere anche senza essere installato su alcun modello). Tuttavia la partecipazione dell'entità alla relazione \textit{Motorizzato\_Da} è totale: ogni modello deve essere necessariamente equipaggiato da un motore.
 
-\end{itemize}
+\end{itemize} 
 
 \vspace{1cm}
 

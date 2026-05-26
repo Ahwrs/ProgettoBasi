@@ -237,7 +237,7 @@ Si decide pertanto di eliminare l'attributo ridondante Totale\_Vendite dall'enti
 \vspace{0.5cm}
 \subsection{Eliminazione delle Generalizzazioni}
 
-Come evidenziato nello schema E-R in \textbf{Figura 1} le generalizzazioni presenti devono essere eliminate con l'obiettivo di semplificare la successiva implementazione del modello relazionale.
+Come evidenziato nello schema E-R in \textbf{Figura 1} le generalizzazioni presenti devono essere eliminiate con l'obiettivo di semplificare la successiva implementazione del modello relazionale.
 A questo scopo si sviluppa lo schema ristrutturato in \textbf{Figura 2}, dove si aggiunge anche il volere di mantenere sia la distinzione logica dei dati e sia di evitare valori nulli.
 Di seguito vengono quindi elencate le trasformazioni duelle due generalizzazioni presenti:
 
@@ -298,10 +298,7 @@ Di seguito si illustra lo schema logico relazionale ottenuto da tale ristruttura
     \end{itemize}
     \item \textbf{OPTIONAL}( \underline{Codice\_Optional}, Categoria, Nome )
     \item \textbf{MOTORE}(\underline{Codice\_Motore}, Cilindrata, Frazionamento, Alimentazione )
-    \item \textbf{MODELLO}( \underline{Denominazione\_Commerciale, Codice\_Telaio}, Anno\_Prima\_Produzione, Motore, Potenza\_Motore)
-    \begin{itemize}
-        \item MODELLO.Motore $\rightarrow$ MOTORE.Codice\_Motore
-    \end{itemize}
+    \item \textbf{MODELLO}( \underline{Denominazione\_Commerciale, Codice\_Telaio}, Anno\_Prima\_Produzione)
     \item \textbf{RICAMBIO}( \underline{OEM}, Nome, Prezzo\_Unitario )
     \item \textbf{INTERVENTO}( \underline{Veicolo, Numero\_Intervento}, Data\_Intervento, Costo, Ore\_Manodopera, Meccanico )
     \begin{itemize}
@@ -339,6 +336,11 @@ Di seguito si elencano le tabelle ottenute dalle relazioni molti a molti:
         \item UTILIZZA.Ricambio $\rightarrow$ RICAMBIO.OEM
         \item UTILIZZA.Numero\_Intervento $\rightarrow$ INTERVENTO.Numero\_Intervento
         \item UTILIZZA.Veicolo $\rightarrow$ INTERVENTO.Veicolo
+    \end{itemize}
+    \item \textbf{MOTORIZZATO\_DA} ( \underline{Codice\_Telaio, Denominazione\_Commerciale, Motore}, Potenza )
+    \begin{itemize}
+        \item MOTORIZZATO\_DA.(Codice\_Telaio, Denominazione\_Commerciale) $\rightarrow$ MODELLO.(Codice\_Telaio, Denominazione\_Commerciale)
+        \item MOTORIZZATO\_DA.Motore $\rightarrow$ MOTORE.Codice\_Motore
     \end{itemize}
 \end{itemize}
 

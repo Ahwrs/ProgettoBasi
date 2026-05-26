@@ -1,0 +1,17 @@
+CREATE TABLE CLIENTE(
+
+	Codice_Fiscale VARCHAR(16) PRIMARY KEY,
+	Nome VARCHAR(255) NOT NULL,
+	Cognome VARCHAR(255) NOT NULL,
+	Data_Nascita DATE NOT NULL,
+	Telefono VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE MOTORE(
+    
+    Codice_Motore VARCHAR(20) PRIMARY KEY,
+    Cilindrata INT NOT NULL,
+    Frazionamento VARCHAR(20) NOT NULL,
+    Alimentazione VARCHAR(20) NOT NULL
+);
+
