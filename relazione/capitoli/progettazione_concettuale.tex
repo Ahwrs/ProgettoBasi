@@ -36,8 +36,9 @@ Il presente schema E-R non permette di rappresentare direttamente i seguenti vin
     \item Se un veicolo \textbf{usato} viene venduto, allora la \texttt{Data\_Acquisto} deve essere successiva alla \texttt{Data\_Ultima\_Revisione}.
     \item Se un veicolo viene sottoposto ad un intervento, allora la \texttt{Data\_Intervento} deve essere successiva all' \texttt{Anno\_Immatricolazione}.
     \item Ogni valore numerico (Potenza, Cilindrata, Costo, Ore\_Manodopera, ecc..) presente nel sistema deve avere un valore non negativo. Fatta eccezione per codici specifici (es. VIN, OEM, ecc.).
-    \item Nel diagramma E-R la relazione tra \textit{Venditore} e \textit{Acquisto} presenta cardinalità (0,N) dal lato del venditore (per consentire la presenza di venditori neoassunti che non hanno ancora concluso alcuna vendita). Tuttavia la partecipazione dell'entità alla relazione \textit{Acquisto} è totale: ogni acquisto deve essere necessariamente gestito da un venditore.
-    \item Nel diagramma E-R la relazione tra \textit{Modello} e \textit{Motore} presenta cardinalità (0,N) dal lato del motore (poiché un motore può esistere anche senza essere installato su alcun modello). Tuttavia la partecipazione dell'entità alla relazione \textit{Motorizzato\_Da} è totale: ogni modello deve essere necessariamente equipaggiato da un motore.
+    \item Nel diagramma E‑R la relazione tra \textit{Venditore} e \textit{Acquisto} presenta cardinalità (0,N) dal lato del venditore (per consentire la presenza di venditori neoassunti che non hanno ancora concluso alcuna vendita). Tuttavia la partecipazione dell'entità alla relazione \textit{Acquisto} è totale: ogni acquisto deve essere necessariamente gestito da un venditore.
+
+    \item Nel diagramma E‑R la relazione tra \textit{Modello} e \textit{Motore} presenta cardinalità (0,N) dal lato del motore (poiché non tutti i motori vengono installati su dei modelli). Tuttavia la partecipazione dell'entità alla relazione \textit{Motorizzato\_Da} è totale: ogni modello deve essere necessariamente equipaggiato da un motore.
 
 \end{itemize} 
 
@@ -180,7 +181,7 @@ Modello, Motore &
 \textit{Potenza} \\
 \hline
 
-Include &
+Equipaggia &
 Un veicolo nuovo include optional &
 Veicolo\_Nuovo, Optional &
 - \\
