@@ -1,8 +1,8 @@
 CREATE TABLE CLIENTE(
 
 	Codice_Fiscale VARCHAR(16) PRIMARY KEY,
-	Nome VARCHAR(255) NOT NULL,
-	Cognome VARCHAR(255) NOT NULL,
+	Nome VARCHAR(20) NOT NULL,
+	Cognome VARCHAR(20) NOT NULL,
 	Data_Nascita DATE NOT NULL,
 	Telefono VARCHAR(20) NOT NULL
 );
@@ -10,8 +10,235 @@ CREATE TABLE CLIENTE(
 CREATE TABLE MOTORE(
     
     Codice_Motore VARCHAR(20) PRIMARY KEY,
-    Cilindrata INT NOT NULL,
+    Cilindrata INT NOT NULL CHECK (Cilindrata > 0),
     Frazionamento VARCHAR(20) NOT NULL,
     Alimentazione VARCHAR(20) NOT NULL
 );
 
+CREATE TABLE MODELLO(
+
+	Denominazione_Commerciale VARCHAR(10),
+	Codice_Telaio VARCHAR(20),
+	Anno_Prima_Produzione INT NOT NULL 
+		CHECK (Anno_Prima_Produzione BETWEEN 1886 AND EXTRACT(YEAR FROM CURRENT_DATE)),
+
+	PRIMARY KEY (Denominazione_Commerciale, Codice_Telaio)
+);
+
+CREATE TABLE VEICOLO(
+
+	VIN VARCHAR(20) PRIMARY KEY,
+	Anno_Immatricolazione INT NOT NULL
+		CHECK (Anno_Immatricolazione BETWEEN 1886 AND EXTRACT(YEAR FROM CURRENT_DATE)),
+	
+	Denominazione_Commerciale VARCHAR(10) NOT NULL,
+    Codice_Telaio VARCHAR(20) NOT NULL,
+
+    FOREIGN KEY (Denominazione_Commerciale, Codice_Telaio)
+    REFERENCES MODELLO(Denominazione_Commerciale, Codice_Telaio)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE VEICOLO_USATO(
+
+	VIN VARCHAR(20) PRIMARY KEY REFERENCES VEICOLO(VIN) 
+		ON DELETE RESTRICT
+		ON UPDATE CASCADE,
+	
+	Data_Ultima_Revisione DATE NOT NULL 
+		CHECK (Data_Ultima_Revisione BETWEEN '1886-01-01' AND CURRENT_DATE),
+	
+	Numero_Proprietari INT NOT NULL CHECK (Numero_Proprietari > 0)
+);
+
+CREATE TABLE VEICOLO_NUOVO(
+
+	VIN VARCHAR(20) PRIMARY KEY REFERENCES VEICOLO(VIN) 
+		ON DELETE RESTRICT
+		ON UPDATE CASCADE,
+
+	Garanzia INT NOT NULL CHECK (Garanzia > 0)
+);
+
+CREATE TABLE OPTIONAL(
+
+	Codice_Optional VARCHAR(20) PRIMARY KEY,
+	Nome VARCHAR(20) NOT NULL,
+	Categoria VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE DIPENDENTE(
+
+	Matricola VARCHAR(5) PRIMARY KEY,
+	Nome VARCHAR(20) NOT NULL,
+	Cognome VARCHAR(20) NOT NULL,
+	Data_Assunzione DATE NOT NULL CHECK (Data_Assunzione <= CURRENT_DATE),
+	Stipendio INT NOT NULL CHECK (Stipendio > 0)
+);
+
+CREATE TABLE MECCANICO(
+
+	Matricola VARCHAR(5) PRIMARY KEY REFERENCES DIPENDENTE(Matricola)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+
+	Specializzazione VARCHAR(20) NOT NULL,
+	Livello_Aziendale VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE VENDITORE(
+
+	Matricola VARCHAR(5) PRIMARY KEY REFERENCES DIPENDENTE(Matricola)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	Percentuale_Commissione DECIMAL(10, 2) NOT NULL 
+		CHECK (Percentuale_Commissione BETWEEN 0 AND 100)
+);
+
+CREATE TABLE ACQUISTO(
+
+    Veicolo VARCHAR(20) PRIMARY KEY REFERENCES VEICOLO(VIN)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+
+    Data_Acquisto DATE NOT NULL 
+        CHECK (Data_Acquisto BETWEEN '1886-01-01' AND CURRENT_DATE),
+
+    Cliente VARCHAR(16) NOT NULL REFERENCES CLIENTE(Codice_Fiscale)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+
+    Venditore VARCHAR(5) NOT NULL REFERENCES VENDITORE(Matricola)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+
+    Prezzo DECIMAL(10, 2) NOT NULL CHECK (Prezzo > 0)
+);
+
+CREATE TABLE INTERVENTO(
+
+    Veicolo VARCHAR(20) REFERENCES VEICOLO(VIN)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+    
+	Numero_Intervento INT,
+    Data_Intervento DATE NOT NULL,
+    Costo DECIMAL(10,2) NOT NULL CHECK (Costo > 0),
+    Ore_Manodopera INT NOT NULL CHECK (Ore_Manodopera > 0),
+    Meccanico VARCHAR(5) NOT NULL
+        REFERENCES MECCANICO(Matricola)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+
+    PRIMARY KEY (Veicolo, Numero_Intervento)       
+);
+
+CREATE OR REPLACE FUNCTION Check_Data_Intervento()
+RETURNS TRIGGER AS $$
+DECLARE
+    Anno_IMTR INT;
+BEGIN
+
+    SELECT Anno_Immatricolazione
+    INTO Anno_IMTR
+    FROM VEICOLO
+    WHERE VIN = NEW.Veicolo;
+
+    IF EXTRACT(YEAR FROM NEW.Data_Intervento) < Anno_IMTR THEN
+        RAISE EXCEPTION 'Data intervento non valida';
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER Check_Data_Intervento_TRG
+BEFORE INSERT ON INTERVENTO
+FOR EACH ROW
+EXECUTE FUNCTION Check_Data_Intervento();
+
+CREATE OR REPLACE FUNCTION Num_Progressivo_Intervento()
+RETURNS TRIGGER AS $$
+DECLARE
+    Ultimo INT;
+BEGIN
+
+    PERFORM 1
+    FROM INTERVENTO
+    WHERE Veicolo = NEW.Veicolo
+    FOR UPDATE;
+
+    SELECT COALESCE(MAX(Numero_Intervento), 0)
+    INTO Ultimo
+    FROM INTERVENTO
+    WHERE Veicolo = NEW.Veicolo;
+
+    NEW.Numero_Intervento := Ultimo + 1;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER Num_Progressivo
+BEFORE INSERT ON INTERVENTO
+FOR EACH ROW
+EXECUTE FUNCTION Num_Progressivo_Intervento();
+
+CREATE TABLE RICAMBIO(
+	
+	OEM VARCHAR(20) PRIMARY KEY,
+	Nome VARCHAR(100) NOT NULL,
+	Prezzo_Unitario DECIMAL(10,2) NOT NULL CHECK (Prezzo_Unitario > 0)
+);
+
+CREATE TABLE EQUIPAGGIA(
+
+	Optional VARCHAR(20) REFERENCES OPTIONAL(Codice_Optional)
+		ON DELETE RESTRICT
+		ON UPDATE CASCADE,
+	
+	Veicolo VARCHAR(20) REFERENCES VEICOLO_NUOVO(VIN)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+
+	PRIMARY KEY (Optional, Veicolo)
+);
+
+CREATE TABLE UTILIZZA(
+
+    Ricambio VARCHAR(20) REFERENCES RICAMBIO(OEM)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+
+    Numero_Intervento INT NOT NULL,
+    Veicolo VARCHAR(20) NOT NULL,
+
+    Quantità INT NOT NULL CHECK (Quantità > 0),
+
+    PRIMARY KEY (Ricambio, Numero_Intervento, Veicolo),
+
+    FOREIGN KEY (Numero_Intervento, Veicolo) 
+        REFERENCES INTERVENTO(Numero_Intervento, Veicolo)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE MOTORIZZATO_DA(
+
+	Codice_Telaio VARCHAR(20),
+	Denominazione_Commerciale VARCHAR(20),
+	Motore VARCHAR(20),
+	Potenza INT CHECK(Potenza > 0),
+
+	PRIMARY KEY (Codice_Telaio, Denominazione_Commerciale, Motore),
+
+	FOREIGN KEY (Codice_Telaio, Denominazione_Commerciale)
+	REFERENCES MODELLO(Codice_Telaio, Denominazione_Commerciale)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+
+	FOREIGN KEY (Motore) REFERENCES MOTORE(Codice_Motore)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+);

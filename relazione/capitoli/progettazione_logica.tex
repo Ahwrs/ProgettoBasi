@@ -306,7 +306,7 @@ Di seguito si illustra lo schema logico relazionale ottenuto da tale ristruttura
         \item INTERVENTO.Meccanico $\rightarrow$ MECCANICO.Matricola
     \end{itemize}
     \item \textbf{CLIENTE}( \underline{Codice\_Fiscale}, Nome, Cognome, Data\_Nascita, Telefono )
-    \item \textbf{DIIPENDENTE}( \underline{Matricola}, Nome, Cognome, Data\_Assunzione, Stipendio )
+    \item \textbf{DIPENDENTE}( \underline{Matricola}, Nome, Cognome, Data\_Assunzione, Stipendio )
     \item \textbf{MECCANICO}( \underline{Matricola}, Specializzazione, Livello\_Aziendale )
     \begin{itemize}
         \item MECCANICO.Matricola $\rightarrow$ DIPENDENTE.Matricola
@@ -326,10 +326,10 @@ Di seguito si illustra lo schema logico relazionale ottenuto da tale ristruttura
 \vspace{0.5cm}
 Di seguito si elencano le tabelle ottenute dalle relazioni molti a molti: 
 \begin{itemize}
-    \item \textbf{INCLUDE}( \underline{Optional, Veicolo} )
+    \item \textbf{EQUIPAGGIA}( \underline{Optional, Veicolo} )
     \begin{itemize}
-        \item INCLUDE.Optional $\rightarrow$ OPTIONAL.Codice\_Optional
-        \item INCLUDE.Veicolo $\rightarrow$ VEICOLO\_NUOVO.VIN
+        \item EQUIPAGGIA.Optional $\rightarrow$ OPTIONAL.Codice\_Optional
+        \item EQUIPAGGIA.Veicolo $\rightarrow$ VEICOLO\_NUOVO.VIN
     \end{itemize}
     \item \textbf{UTILIZZA}( \underline{Ricambio, Numero\_Intervento, Veicolo}, Quantità )
     \begin{itemize}
