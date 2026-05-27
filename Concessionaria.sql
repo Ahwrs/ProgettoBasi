@@ -499,3 +499,5 @@ INSERT INTO EQUIPAGGIA (Optional, Veicolo) VALUES
     ('712', 'WBA118D0000000009'),
     ('688', 'WBA118D0000000010'),
     ('2VL', 'WBA118D0000000010');
+
+	CREATE INDEX idx_acquisto_data_venditore ON ACQUISTO ( Data_Acquisto , Venditore );

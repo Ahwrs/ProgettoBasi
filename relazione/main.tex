@@ -11,6 +11,20 @@
 \usepackage{caption}
 \captionsetup[table]{skip=0.5cm}
 \usepackage{ragged2e}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    language=SQL,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red},
+    showstringspaces=false,
+    frame=single,
+    breaklines=true
+}
+
 % \usepackage[T1]{fontenc}
 % \usepackage{helvet}
 % \renewcommand{\familydefault}{\sfdefault}
@@ -63,6 +77,7 @@
 \input{capitoli/analisi_requisiti.tex}
 \input{capitoli/progettazione_concettuale.tex}
 \input{capitoli/progettazione_logica.tex}
+\input{capitoli/Implementazione.tex}
 \input{capitoli/accesso_da_software.tex}
 % Fine contenuto
 
