@@ -1,18 +1,32 @@
 \vspace{0.5cm}
 \section{Applicazione software di accesso al database}
 
-Per sfruttare efficacemente l'architettura del database, è stato sviluppato un client
-da riga di comando (CLI), eseguibile compilando il file \texttt{client.c}, scritto in C.
-Per aumentare la portabilità e l'indipendenza dall'ambiente, al lancio l'applicativo
-richiede l'immissione delle credenziali di accesso al database PostgreSQL.
-Una volta verificata e stabilita la connessione con il server, il programma permette
-l'interrogazione del database, scegliendo tra le seguenti query:
+Per sfruttare efficacemente l'architettura del database, è stato
+sviluppato un client da riga di comando (CLI), eseguibile compilando
+il file \texttt{client.c}, scritto in C.
+
+Per aumentare la portabilità e l'indipendenza dall'ambiente, al lancio
+l'applicativo richiede l'immissione delle credenziali di accesso al 
+database PostgreSQL. Una volta verificata e stabilita la connessione con
+il server, il programma permette l'interrogazione del database,
+scegliendo tra le seguenti query:
 \begin{enumerate}
-    \item Query 1
-    \item Query 2
-    \item Query 3
-    \item Query 4
-    \item Query 5
+    \item Individuazione del modello di veicolo più venduto.
+    \item Estrazione dei venditori che hanno superato una specifica
+          soglia di vendite in un determinato intervallo temporale.
+    \item Ricerca del ricambio più utilizzato per ogni tipologia
+          di motore, con ordinamento decrescente in base alla frequenza d'uso.
+    \item Calcolo del numero di vendite per le combinazioni più richieste di
+          frazionamento e alimentazione.
+    \item Calcolo del prezzo medio dei veicoli venduti soggetti alla
+          tassa del superbollo (sopra i 250 cv).
 \end{enumerate}
 
-La quinta quuery è parametrica: infatti, permette \textbf{inserire cosa fa}.
+La selezione della query desiderata avviene tramite l'inserimento del codice numerico corrispondente. 
+
+La seconda interrogazione è stata implementata in forma parametrica: a tempo di esecuzione,
+il sistema richiede all'utente di inserire il valore soglia relativo al volume di vendite.
+Questa soluzione si rivela particolarmente funzionale in scenari gestionali, come la definizione
+di politiche incentivanti o l'assegnazione di bonus basati sulle performance, consentendo di adattare
+dinamicamente il target richiesto in risposta alle fluttuazioni stagionali del mercato
+(ad esempio, innalzando gli obiettivi nei periodi di maggiore affluenza).
