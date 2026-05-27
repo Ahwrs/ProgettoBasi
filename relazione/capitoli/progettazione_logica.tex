@@ -237,9 +237,9 @@ Si decide pertanto di eliminare l'attributo ridondante Totale\_Vendite dall'enti
 \vspace{0.5cm}
 \subsection{Eliminazione delle Generalizzazioni}
 
-Come evidenziato nello schema E-R in \textbf{Figura 1} le generalizzazioni presenti devono essere eliminiate con l'obiettivo di semplificare la successiva implementazione del modello relazionale.
-A questo scopo si sviluppa lo schema ristrutturato in \textbf{Figura 2}, dove si aggiunge anche il volere di mantenere sia la distinzione logica dei dati e sia di evitare valori nulli.
-Di seguito vengono quindi elencate le trasformazioni duelle due generalizzazioni presenti:
+Come evidenziato nello schema E-R in \textbf{Figura 1} le generalizzazioni presenti devono essere eliminate con l'obiettivo di semplificare la successiva implementazione del modello relazionale.
+A questo scopo si sviluppa lo schema ristrutturato in \textbf{Figura 2}, dove si aggiunge anche la volontà di mantenere sia la distinzione logica dei dati e sia di evitare valori nulli.
+Di seguito vengono quindi elencate le trasformazioni delle due generalizzazioni presenti:
 
 \begin{itemize}
     \item \textbf{Veicolo:} La generalizzazione di \textit{Veicolo} viene eliminata introducendo due nuove relazioni, \textbf{IS\_USATO} e \textbf{IS\_NUOVO}.
@@ -263,7 +263,7 @@ La relazione ternaria ACQUISTO (tra CLIENTE, VEICOLO, VENDITORE) viene trasforma
     \item \textbf{OGGETTO\_DI} tra \textit{Veicolo} e \textit{Acquisto}: (0,1) e (1,1)
     \item \textbf{GESTISCE} tra \textit{Venditore} e \textit{Acquisto}: (0,N) e (1,1)
 \end{itemize}
-L'entità Acquisto possiede gli attributi Data\_Acquisto e Prezzo (entrambi obbligatori).
+L'entità Acquisto possiede gli attributi \texttt{Data\_Acquisto} e \texttt{Prezzo} (entrambi obbligatori).
 
 \vspace{0.5cm}
 \subsection{Schema Relazionale}
@@ -297,7 +297,7 @@ Di seguito si illustra lo schema logico relazionale ottenuto da tale ristruttura
         \item VEICOLO\_NUOVO.VIN $\rightarrow$ VEICOLO.VIN
     \end{itemize}
     \item \textbf{OPTIONAL}( \underline{Codice\_Optional}, Categoria, Nome )
-    \item \textbf{MOTORE}(\underline{Codice\_Motore}, Cilindrata, Frazionamento, Alimentazione )
+    \item \textbf{MOTORE}(\underline{Codice\_Motore}, Cilindrata, Frazionamento, Alimentazione)
     \item \textbf{MODELLO}( \underline{Denominazione\_Commerciale, Codice\_Telaio}, Anno\_Prima\_Produzione)
     \item \textbf{RICAMBIO}( \underline{OEM}, Nome, Prezzo\_Unitario )
     \item \textbf{INTERVENTO}( \underline{Veicolo, Numero\_Intervento}, Data\_Intervento, Costo, Ore\_Manodopera, Meccanico )

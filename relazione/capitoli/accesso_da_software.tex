@@ -3,7 +3,9 @@
 
 Per sfruttare efficacemente l'architettura del database, è stato
 sviluppato un client da riga di comando (CLI), eseguibile compilando
-il file \texttt{client.c}, scritto in C.
+il file \texttt{client.c}, scritto in C (è necessario includere la
+libreria \texttt{libpq} per poter utilizzare le funzioni che
+interagiscono con il database).
 
 Per aumentare la portabilità e l'indipendenza dall'ambiente, al lancio
 l'applicativo richiede l'immissione delle credenziali di accesso al 
@@ -15,18 +17,30 @@ scegliendo tra le seguenti query:
     \item Estrazione dei venditori che hanno superato una specifica
           soglia di vendite in un determinato intervallo temporale.
     \item Ricerca del ricambio più utilizzato per ogni tipologia
-          di motore, con ordinamento decrescente in base alla frequenza d'uso.
-    \item Calcolo del numero di vendite per le combinazioni più richieste di
-          frazionamento e alimentazione.
-    \item Calcolo del prezzo medio dei veicoli venduti soggetti alla
-          tassa del superbollo (sopra i 250 cv).
+          di motore.
+    \item Calcolo del numero di vendite per le combinazioni più richieste
+          di frazionamento e alimentazione.
+    \item Calcolo del prezzo medio dei veicoli venduti soggetti al
+          superbollo (applicato sopra i 250 cv).
 \end{enumerate}
 
-La selezione della query desiderata avviene tramite l'inserimento del codice numerico corrispondente. 
+La selezione della query desiderata avviene tramite l'inserimento del
+codice numerico corrispondente. 
 
-La seconda interrogazione è stata implementata in forma parametrica: a tempo di esecuzione,
-il sistema richiede all'utente di inserire il valore soglia relativo al volume di vendite.
-Questa soluzione si rivela particolarmente funzionale in scenari gestionali, come la definizione
-di politiche incentivanti o l'assegnazione di bonus basati sulle performance, consentendo di adattare
-dinamicamente il target richiesto in risposta alle fluttuazioni stagionali del mercato
-(ad esempio, innalzando gli obiettivi nei periodi di maggiore affluenza).
+La seconda interrogazione è stata implementata in forma parametrica: a
+runtime il sistema richiede all'utente di inserire il
+valore soglia relativo al volume di vendite. Questa soluzione si rivela
+particolarmente funzionale in scenari gestionali, come la definizione di
+politiche incentivanti o l'assegnazione di bonus basati sulle performance, 
+consentendo di adattare dinamicamente il target richiesto in risposta
+alle fluttuazioni stagionali del mercato (ad esempio, innalzando gli
+obiettivi nei periodi di maggiore affluenza).
+
+Dal punto di vista della sicurezza, attualmente, il sistema risulta di
+fatto protetto grazie all'applicazione della \textit{Strict Input
+Validation} sui valori della query parametrica (originariamente inserita
+per evitare crash del programma).
+Tuttavia, in ambito professionale, la validazione manuale dei parametri
+non è sufficiente. La \textit{Best Practice} consiste nell'abbandonare
+la concatenazione di stringhe e sfruttare la sanificazione dell'input
+offerta dalla libreria \texttt{libpq}.

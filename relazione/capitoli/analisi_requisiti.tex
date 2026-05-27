@@ -1,32 +1,31 @@
 \section{Analisi dei requisiti}
 
 Questa sezione riassume i requisiti a cui deve sottostare la base di dati per la
-gestione della concessionaria BMW e relativa officina.
+gestione della concessionaria BMW e la relativa officina.
 
 \begin{description}
 
     \item[Veicolo] Ogni veicolo è identificato dal Vehicle Identification Number (VIN),
-    un codice alfanumerico di 17 caratteri univoco per ogni vettura esistente
-    (immatricolata o meno).
+    un codice alfanumerico di 17 caratteri univoco per ogni vettura esistente (immatricolata o meno).
     Le caratteristiche aggiuntive di un veicolo sono l'anno di immatricolazione e il modello commerciale.
     I veicoli si suddividono in modo totale e disgiunto in nuovi e usati.
 
-    \item[Veicolo nuovo] Un veicolo che non è mai stato immatricolato. Vengono
-    registrati anche periodo di garanzia e l'insieme degli accessori opzionali di cui dispone
+    \item[Veicolo nuovo] Un veicolo che non è mai stato venduto al cliente finale. Vengono
+    registrati anche periodo di garanzia e l'insieme degli accessori opzionali di cui dispone.
 
-    \item[Veicolo usato] Un veicolo che è già stato immatricolato e, successivamente,
-    venduto dal precedente proprietario. È necessario memorizzare il numero di proprietari passati e la data dell'ultima revisione effettuata.
+    \item[Veicolo usato] Un veicolo che è già stato venduto almeno una volta. Può essere attualmente in vendita o meno.
+    È necessario memorizzare il numero di proprietari passati e la data dell'ultima revisione effettuata.
 
     Nel modello adottato, ciascun veicolo - sia nuovo che usato - può essere oggetto di al più un acquisto. I veicoli usati inseriti nel database
     provengono da fonti esterne al concessionario (acquisti da privati, aste, flotte aziendali) oppure da permute di clienti per auto non precedentemente
     vendute dal concessionario stesso.
     
     In quest'ultimo caso, il concessionario non riacquista per la rivendita veicoli che ha già venduto in passato.
-    Pertanto, un veicolo usato che entra nel sistema non ha mai una vendita precedente registrata nel DB 
+    Pertanto, un veicolo usato che entra nel sistema non ha mai una vendita precedente registrata nel database 
     e viene venduto una sola volta.
 
     \item[Optional] Viene identificato da un codice univoco assegnato da casa madre.
-    Sono dotati di un nome e di una categoria.
+    È dotato di un nome e di una categoria.
 
     \item[Modello] Il modello definisce l'architettura costruttiva e le specifiche
     di una determinata famiglia di veicoli. Viene identificata dall'insieme di:
@@ -34,7 +33,7 @@ gestione della concessionaria BMW e relativa officina.
         \item \textbf{Codice telaio}: sigla composta da una lettera e due numeri, usata
         internamente da casa madre per identificare la piattaforma strutturale del
         veicolo, la sua generazione e il tipo di carrozzeria.
-        \item \textbf{Denominazione commerciale}: sigla di tre numeri e una lettera che
+        \item \textbf{Denominazione commerciale}: sigla alfanumerica che
         indicano serie di appartenenza, range di potenza e alimentazione del propulsore
     \end{itemize}
     La combinazione dei due attributi è necessaria poiché una data piattaforma può
@@ -54,7 +53,7 @@ gestione della concessionaria BMW e relativa officina.
     Inoltre, presenta le seguenti caratteristiche:
     \begin{itemize}
         \item \textbf{Cilindrata}: Quantità d'aria volumetrica aspirata dal motore
-        ad ogni ciclo (unità di misura: $cm^3$)
+        ad ogni ciclo (unità di misura: $cm^3$).
         \item \textbf{Frazionamento}: Sigla che illustra il numero di cilindri e la
         loro disposizione all'interno del monoblocco.
         \item \textbf{Alimentazione}: Carburante iniettato nel propulsore. A carburanti
@@ -65,7 +64,7 @@ gestione della concessionaria BMW e relativa officina.
     elettronicamente per essere montato su modelli con struttura uguale
     ma range di potenza diversi.
 
-    \item[Cliente] Viene identificato dal codice fiscale. Vengono salvate anche
+    \item[Cliente] Viene identificato dal Codice Fiscale. Vengono salvate anche
     le informazioni relative a nome, cognome, data di nascita e numero di telefono.
 
     \item[Dipendente] Viene identificato dal numero di matricola aziendale. Altre
@@ -76,7 +75,7 @@ gestione della concessionaria BMW e relativa officina.
     specializzazione e livello nella gerarchia aziendale.
     
     \item[Venditore] Oltre alle informazioni già presenti, vengono memorizzati anche
-    il numero totale di vendite effettuate e la percentuale ottenuta su ognuna.
+    il numero totale di vendite effettuate e la percentuale ottenuta su ognuna di esse.
     Un venditore viene registrato dal momento in cui viene assunto, anche se non ha
     ancora concluso alcuna vendita. Un veicolo può essere venduto o invenduto.
 
@@ -85,7 +84,7 @@ gestione della concessionaria BMW e relativa officina.
     assegnato univocamente dal produttore a ciascun componente originale.
     Inoltre, vengono memorizzati il nome del componente e il prezzo unitario.
 
-    \item[Intervento] Rappresenta la singola commessa di manutenzione 
+    \item[Intervento] Rappresenta la singola operazione di manutenzione 
     (ordinaria o straordinaria) presa in carico dall'officina. Poiché una riparazione 
     è intrinsecamente legata all'auto su cui viene eseguita, l'intervento è 
     identificato univocamente in modo composto: tramite il VIN del veicolo associato 

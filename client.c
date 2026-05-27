@@ -93,21 +93,22 @@ void esegui_e_stampa(PGconn* conn, const char* query) {
     int numero_tuple = PQntuples(risultato);
 
     for (int i = 0; i < numero_attributi; i++) {
-        printf("%-20s", PQfname(risultato, i)); // Stampa i titoli degli attributi
+        printf("%-30s", PQfname(risultato, i)); // Stampa i titoli degli attributi
     }
     printf("\n");
 
     for (int i = 0; i < numero_attributi; i++) {
-        printf("--------------------");
+        printf("------------------------------");
     }
     printf("\n");
 
     for (int i = 0; i < numero_tuple; i++) {
         for (int j = 0; j < numero_attributi; j++) {
-            printf("%-20s", PQgetvalue(risultato, i, j));
+            printf("%-30s", PQgetvalue(risultato, i, j));
         }
         printf("\n");
     }
+    printf("\n\n\n");
 
     PQclear(risultato);
 }
@@ -117,25 +118,144 @@ int main() {
     int scelta = -1;
 
     const char* array_query[] = {
-        "Query 1",
-        "Query 2",
-        "Query 3",
-        "Query 4",
-        "Query 5"
+
+        // Query 1
+        "CREATE OR REPLACE VIEW VenditePerModello AS "
+        "SELECT "
+        "M.Denominazione_Commerciale, "
+        "M.Codice_Telaio, "
+        "COUNT(*) AS Numero_Vendite "
+        "FROM MODELLO M "
+        "JOIN VEICOLO V ON M.Denominazione_Commerciale = V.Denominazione_Commerciale "
+        "AND M.Codice_Telaio = V.Codice_Telaio "
+        "JOIN ACQUISTO A ON V.VIN = A.Veicolo "
+        "GROUP BY M.Denominazione_Commerciale, M.Codice_Telaio; "
+        "SELECT * "
+        "FROM VenditePerModello "
+        "WHERE Numero_Vendite = (SELECT MAX(Numero_Vendite) FROM VenditePerModello); ",
+
+        // Query 2 (parametrica)
+        "SELECT D.Matricola, D.Nome, D.Cognome, COUNT(*) AS Vendite "
+        "FROM VENDITORE V "
+        "JOIN DIPENDENTE D ON V.Matricola = D.Matricola "
+        "JOIN ACQUISTO A ON V.Matricola = A.Venditore "
+        "WHERE A.Data_Acquisto BETWEEN '%s' AND '%s' "
+        "GROUP BY D.Matricola, D.Nome, D.Cognome "
+        "HAVING COUNT(*) >= %d ",
+
+        // Query 3
+        "SELECT DISTINCT ON (M.Codice_Motore) "
+        "M.Codice_Motore, "
+        "R.OEM, "
+        "R.Nome AS Nome_Ricambio, "
+        "SUM(U.Quantita) AS Quantita_Totale "
+        "FROM MOTORE M "
+        "JOIN MOTORIZZATO_DA MD ON M.Codice_Motore = MD.Motore "
+        "JOIN MODELLO MO "
+        "ON MD.Denominazione_Commerciale = MO.Denominazione_Commerciale "
+        "AND MD.Codice_Telaio = MO.Codice_Telaio "
+        "JOIN VEICOLO V "
+        "ON MO.Denominazione_Commerciale = V.Denominazione_Commerciale "
+        "AND MO.Codice_Telaio = V.Codice_Telaio "
+        "JOIN INTERVENTO I ON V.VIN = I.Veicolo "
+        "JOIN UTILIZZA U "
+        "ON I.Veicolo = U.Veicolo "
+        "AND I.Numero_Intervento = U.Numero_Intervento "
+        "JOIN RICAMBIO R ON U.Ricambio = R.OEM "
+        "GROUP BY M.Codice_Motore, R.OEM, R.Nome "
+        "ORDER BY M.Codice_Motore, Quantita_Totale DESC;",
+
+        // Query 4
+        "SELECT "
+        "M.Frazionamento, "
+        "M.Alimentazione, "
+        "COUNT(*) AS Numero_Vendite "
+        "FROM MOTORE M "
+        "JOIN MOTORIZZATO_DA MD ON M.Codice_Motore = MD.Motore "
+        "JOIN MODELLO MO "
+        "ON MD.Denominazione_Commerciale = MO.Denominazione_Commerciale "
+        "AND MD.Codice_Telaio = MO.Codice_Telaio "
+        "JOIN VEICOLO V "
+        "ON MO.Denominazione_Commerciale = V.Denominazione_Commerciale "
+        "AND MO.Codice_Telaio = V.Codice_Telaio "
+        "JOIN ACQUISTO A ON V.VIN = A.Veicolo "
+        "GROUP BY M.Frazionamento, M.Alimentazione "
+        "ORDER BY Numero_Vendite DESC;",
+
+        // Query 5
+        "SELECT ROUND(AVG(A.Prezzo), 2) AS Prezzo_Medio_Superbollo "
+        "FROM MOTORIZZATO_DA MD "
+        "JOIN MODELLO MO "
+        "ON MD.Denominazione_Commerciale = MO.Denominazione_Commerciale "
+        "AND MD.Codice_Telaio = MO.Codice_Telaio "
+        "JOIN VEICOLO V "
+        "ON MO.Denominazione_Commerciale = V.Denominazione_Commerciale "
+        "AND MO.Codice_Telaio = V.Codice_Telaio "
+        "JOIN ACQUISTO A ON V.VIN = A.Veicolo "
+        "WHERE MD.Potenza > 250;"
     };
 
     while (scelta != 0) {
         scelta = mostra_menu();
         if (scelta != 0) {
-            if (scelta == 5) {
-                // Composizione query parametrica
-                esegui_e_stampa(conn, array_query[4]);
+            if (scelta == 2) {
+                char data_inizio[15];
+                char data_fine[15];
+                int soglia;
+                char query_pronta[1000];
+                int esito;
+                int input_valido = 1;
+
+                printf("Inserire la data di inizio (formato YYYY-MM-DD): ");
+                scanf("%14s", data_inizio);
+                while(getchar() != '\n'); // Pulizia del buffer di input
+
+                if (strlen(data_inizio) != 10 || data_inizio[4] != '-' || data_inizio[7] != '-') {
+                    printf("\nERRORE: Formato data inizio non valido.\n\n");
+                    input_valido = 0; // Verranno saltati gli inserimenti successivi e la composizione
+                                      // della query, facendo ritorno al menù
+                }
+
+                if (input_valido == 1) {
+                    printf("Inserisci la data di fine (YYYY-MM-DD): ");
+                    scanf("%14s", data_fine);
+                    while(getchar() != '\n'); // Pulizia del buffer di input
+
+                    if (strlen(data_fine) != 10 || data_fine[4] != '-' || data_fine[7] != '-') {
+                        printf("\nERRORE: Formato data fine non valido.\n\n");
+                        input_valido = 0; // Verrà saltato l'inserimento successivo, e la composizione
+                                          // della query, facendo ritorno al menù
+                    }
+                }
+
+                if (input_valido == 1) {
+                    printf("Inserisci la soglia minima di vendite: ");
+                    esito = scanf("%d", &soglia);
+                    while(getchar() != '\n'); // Pulizia del buffer di input, dato che usare scanf() 
+                                              // per ricevere interi crea problemi se l'utente digita una lettera
+
+                    if (esito != 1 || soglia < 0) {
+                        printf("\nERRORE: La soglia deve essere un numero intero positivo.\n\n");
+                        input_valido = 0; // Verrà saltata la composizione della query, facendo ritorno al menù
+                    }
+                }
+
+                if (input_valido == 1) {
+                    snprintf(query_pronta, sizeof(query_pronta), array_query[1], data_inizio, data_fine, soglia); 
+                    esegui_e_stampa(conn, query_pronta);
+
+                    /*
+                        NOTA SULLA SICUREZZA:
+                        Comporre le query parametriche utilizzando snprintf() espone il programma ad attacchi di tipo SQL injection.
+                        Attualmente la protezione viene parzialmente assicurata dalla Strict Input Validation (originariamente implementata
+                        per evitare crash del programma) sui parametri della query.
+                        In un applicativo professionale, andrebbe effettuata una sanificazione totale dell'input grazie alla libreria libpq.
+                    */
+                }
             }
             else esegui_e_stampa(conn, array_query[scelta-1]);
         }
-        else {
-            printf("\nUscita dall'applicazione. Arrivederci!\n");
-        }
+        else printf("\nUscita dall'applicazione. Arrivederci!\n");
     }
 
     PQfinish(conn);

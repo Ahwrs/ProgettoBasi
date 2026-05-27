@@ -16,7 +16,7 @@ In questa sezione vengono presentate, una alla volta, le query selezionate, acco
     \vspace{0.1cm}
     \begin{lstlisting}[framesep=15pt]
 -- View --
-CREATE VIEW VenditePerModello AS
+CREATE OR REPLACE VIEW VenditePerModello AS
 SELECT 
     M.Denominazione_Commerciale, 
     M.Codice_Telaio,
@@ -71,7 +71,7 @@ HAVING COUNT(*) > $3;                     -- $3 = Soglia minima
     \end{figure}
     
     \vspace{0.1cm}
-    \item \textbf{Query 3:} Per ciascun motore (identificato dal suo codice), determinare il ricambio che è stato utilizzato con maggiore frequenza complessiva in tutti gli interventi effettuati sui veicoli che montano quel motore. I risultati sono ordinati in senso decrescente rispetto alla quantità totale di quel ricambio utilizzata.
+    \item \textbf{Query 3:} Per ciascun motore (identificato dal suo codice), determinare il ricambio che è stato utilizzato con maggiore frequenza complessiva in tutti gli interventi effettuati sui veicoli che montano quel motore.
 
     \vspace{0.1cm}
     \begin{lstlisting}[framesep=15pt]
@@ -147,7 +147,7 @@ ORDER BY Numero_Vendite DESC;
 
     \vspace{0.1cm}
     \begin{lstlisting}[framesep=15pt]
-SELECT AVG(A.Prezzo) AS Prezzo_Medio_Superbollo
+SELECT ROUND(AVG(A.Prezzo), 2) AS Prezzo_Medio_Superbollo
 FROM MOTORIZZATO_DA MD
 JOIN MODELLO MO 
         ON MD.Denominazione_Commerciale = MO.Denominazione_Commerciale 
@@ -192,7 +192,7 @@ L'indice è un \textbf{B‑Tree}, e supporta quindi le ricerche per intervallo (
 \newline La colonna \textbf{Data\_Acquisto} è messa per prima per restringere immediatamente il numero di righe da esaminare.
 \newline La colonna \textbf{Venditore} come secondo attributo aiuta il \textbf{GROUP BY} perché le righe di ciascun venditore risultano già ordinate all'interno dell'intervallo.
 
-In alternativa, un indice su (Venditore, Data\_Acquisto) sarebbe meno efficace perché il filtro sulla data non potrebbe essere sfruttato come primo livello di selezione. La scelta ricade quindi su (Data\_Acquisto, Venditore).
+Un'alternativa sarebbe stata un indice su (Venditore, Data\_Acquisto), che, tuttavia, sarebbe meno efficace perché il filtro sulla data non potrebbe essere sfruttato come primo livello di selezione. La scelta ricade quindi su (Data\_Acquisto, Venditore).
 \newline Quest'ultimo riduce drasticamente il costo della query parametrica, che è anche la più frequente e la sola a beneficiare di un filtro selettivo.
 
 \vspace{0.5cm}
