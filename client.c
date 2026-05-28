@@ -52,11 +52,11 @@ int mostra_menu() {
     printf("==============\n");
     printf("MENU QUERY\n");
     printf("==============\n");
-    printf("1) Query 1\n");
-    printf("2) Query 2\n");
-    printf("3) Query 3\n");
-    printf("4) Query 4\n");
-    printf("5) Query 5\n");
+    printf("1) Individuazione del modello di veicolo più venduto\n");
+    printf("2) Estrazione dei venditori che hanno superato una specifica soglia di vendite in un determinato intervallo temporale\n");
+    printf("3) Ricerca del ricambio più utilizzato per ogni tipologia di motore\n");
+    printf("4) Calcolo del numero di vendite per le combinazioni più richieste di frazionamento e alimentazione\n");
+    printf("5) Calcolo del prezzo medio dei veicoli venduti soggetti al superbollo (applicato sopra i 250 cv)\n");
     printf("-----------------\n");
     printf("Inserire il numero 0 per uscire dal programma\n"); // Permette di chiudere correttamente 
                                                                // la connessione con il database

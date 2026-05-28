@@ -9,10 +9,14 @@
 \usepackage{changepage}
 \usepackage{longtable}
 \usepackage{caption}
+\usepackage[hidelinks]{hyperref}
 \captionsetup[table]{skip=0.5cm}
 \usepackage{ragged2e}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage[scaled]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
 
 \lstset{
     language=SQL,
@@ -25,13 +29,8 @@
     breaklines=true
 }
 
-% \usepackage[T1]{fontenc}
-% \usepackage{helvet}
-% \renewcommand{\familydefault}{\sfdefault}
-
 \begin{document}
 
-% Inizio pagina titolo
 \begin{titlepage}
     \centering
 
@@ -63,22 +62,16 @@
     \vfill
 \end{titlepage}
 \clearpage
-% Fine pagina titolo
 
-
-% Inizio pagina indice
 \tableofcontents
 \clearpage
-% Fine pagina indice
 
 
-% Inizio contenuto
 \input{capitoli/abstract.tex}
 \input{capitoli/analisi_requisiti.tex}
 \input{capitoli/progettazione_concettuale.tex}
 \input{capitoli/progettazione_logica.tex}
-\input{capitoli/Implementazione.tex}
+\input{capitoli/implementazione.tex}
 \input{capitoli/accesso_da_software.tex}
-% Fine contenuto
 
 \end{document}

@@ -1,3 +1,7 @@
+--------------------------------
+-- CREAZIONE TABELLE DATABASE --
+--------------------------------
+
 CREATE TABLE CLIENTE(
 
 	Codice_Fiscale VARCHAR(16) PRIMARY KEY,
@@ -244,7 +248,10 @@ CREATE TABLE MOTORIZZATO_DA(
 );
 
 
--- INSERT
+
+------------------------------
+-- POPOLAMENTO DATI TABELLE --
+------------------------------
 
 INSERT INTO MOTORE (Codice_Motore, Cilindrata, Frazionamento, Alimentazione)
 VALUES
@@ -519,4 +526,114 @@ INSERT INTO EQUIPAGGIA (Optional, Veicolo) VALUES
     ('688', 'WBA118D0000000010'),
     ('2VL', 'WBA118D0000000010');
 
-	CREATE INDEX idx_acquisto_data_venditore ON ACQUISTO ( Data_Acquisto , Venditore );
+
+
+---------------------------------
+-- INTERROGAZIONI SUL DATABASE --
+---------------------------------
+
+-------------
+-- QUERY 1 --
+-------------
+
+-- View --
+CREATE OR REPLACE VIEW VenditePerModello AS
+SELECT
+M. Denominazione_Commerciale ,
+M. Codice_Telaio ,
+COUNT (*) AS Numero_Vendite
+FROM MODELLO M
+JOIN VEICOLO V ON M. Denominazione_Commerciale = V. Denominazione_Commerciale
+AND M. Codice_Telaio = V. Codice_Telaio
+JOIN ACQUISTO A ON V.VIN = A. Veicolo
+GROUP BY M. Denominazione_Commerciale , M. Codice_Telaio ;
+-- Query --
+SELECT *
+FROM VenditePerModello
+WHERE Numero_Vendite = ( SELECT MAX( Numero_Vendite ) FROM VenditePerModello );
+
+
+-------------
+-- QUERY 2 --
+-------------
+
+-- Query --
+SELECT D.Matricola, D.Nome, D.Cognome, COUNT(*) AS vendite
+FROM VENDITORE V
+JOIN DIPENDENTE D ON V.Matricola = D.Matricola
+JOIN ACQUISTO A ON V.Matricola = A.Venditore
+WHERE A.Data_Acquisto BETWEEN '2025-01-01' AND '2025-12-31'
+GROUP BY D.Matricola, D.Nome, D.Cognome
+HAVING COUNT(*) >= 3;
+
+-- Indice --
+CREATE INDEX idx_acquisto_data_venditore ON ACQUISTO ( Data_Acquisto , Venditore );
+
+
+
+-------------
+-- QUERY 3 --
+-------------
+
+SELECT DISTINCT ON (M.Codice_Motore)
+    M.Codice_Motore,
+    R.OEM,
+    R.Nome AS Nome_Ricambio,
+    SUM(U.Quantita) AS Quantita_Totale
+FROM MOTORE M
+
+JOIN MOTORIZZATO_DA MD ON M.Codice_Motore = MD.Motore
+JOIN MODELLO MO 
+        ON MD.Denominazione_Commerciale = MO.Denominazione_Commerciale
+        AND MD.Codice_Telaio = MO.Codice_Telaio
+JOIN VEICOLO V 
+        ON MO.Denominazione_Commerciale = V.Denominazione_Commerciale
+        AND MO.Codice_Telaio = V.Codice_Telaio
+JOIN INTERVENTO I ON V.VIN = I.Veicolo
+JOIN UTILIZZA U 
+        ON I.Veicolo = U.Veicolo
+        AND I.Numero_Intervento = U.Numero_Intervento
+JOIN RICAMBIO R ON U.Ricambio = R.OEM
+
+GROUP BY M.Codice_Motore, R.OEM, R.Nome
+ORDER BY M.Codice_Motore, Quantita_Totale DESC;
+
+
+
+-------------
+-- QUERY 4 --
+-------------
+
+SELECT 
+    M.Frazionamento,
+    M.Alimentazione,
+    COUNT(*) AS Numero_Vendite
+FROM MOTORE M
+JOIN MOTORIZZATO_DA MD ON M.Codice_Motore = MD.Motore
+JOIN MODELLO MO 
+        ON MD.Denominazione_Commerciale = MO.Denominazione_Commerciale 
+        AND MD.Codice_Telaio = MO.Codice_Telaio
+JOIN VEICOLO V 
+        ON MO.Denominazione_Commerciale = V.Denominazione_Commerciale 
+        AND MO.Codice_Telaio = V.Codice_Telaio
+JOIN ACQUISTO A ON V.VIN = A.Veicolo
+
+GROUP BY M.Frazionamento, M.Alimentazione
+ORDER BY Numero_Vendite DESC;
+
+
+
+-------------
+-- QUERY 5 --
+-------------
+
+SELECT ROUND(AVG(A.Prezzo), 2) AS Prezzo_Medio_Superbollo
+FROM MOTORIZZATO_DA MD
+JOIN MODELLO MO 
+        ON MD.Denominazione_Commerciale = MO.Denominazione_Commerciale 
+        AND MD.Codice_Telaio = MO.Codice_Telaio
+JOIN VEICOLO V 
+        ON MO.Denominazione_Commerciale = V.Denominazione_Commerciale 
+        AND MO.Codice_Telaio = V.Codice_Telaio
+JOIN ACQUISTO A ON V.VIN = A.Veicolo
+WHERE MD.Potenza > 250;

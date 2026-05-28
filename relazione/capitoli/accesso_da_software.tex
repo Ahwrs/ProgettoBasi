@@ -3,9 +3,14 @@
 
 Per sfruttare efficacemente l'architettura del database, è stato
 sviluppato un client da riga di comando (CLI), eseguibile compilando
-il file \texttt{client.c}, scritto in C (è necessario includere la
-libreria \texttt{libpq} per poter utilizzare le funzioni che
-interagiscono con il database).
+il file \textbf{client.c}, scritto in C.
+
+Per poter compilare il sorgente, è necessario avere installata la libreria
+\textbf{libpq} sul sistema host.
+
+Su OS Linux, i comandi per compilare ed eseguire sono:
+
+\textbf{gcc client.c -Wall -Wextra -o  db\_client -lpq} \newline \textbf{./db\_client}
 
 Per aumentare la portabilità e l'indipendenza dall'ambiente, al lancio
 l'applicativo richiede l'immissione delle credenziali di accesso al 
@@ -42,5 +47,7 @@ Validation} sui valori della query parametrica (originariamente inserita
 per evitare crash del programma).
 Tuttavia, in ambito professionale, la validazione manuale dei parametri
 non è sufficiente. La \textit{Best Practice} consiste nell'abbandonare
-la concatenazione di stringhe e sfruttare la sanificazione dell'input
-offerta dalla libreria \texttt{libpq}.
+la composizione di stringhe fornita dalla funzione \textbf{snprintf()} della
+libreria \textbf{stdio.h} e sfruttare la sanificazione dell'input
+offerta dalle funzioni \textbf{PQprepare()} e \textbf{PQexecPrepared()},
+offerte dalla libreria \textbf{libpq}.
