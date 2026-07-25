@@ -1,6 +1,4 @@
-# ========================
 # File temporanei di LaTeX
-# ========================
 *.aux
 *.fdb_latexmk
 *.fls
@@ -13,14 +11,10 @@
 *.bbl
 *.blg
 
-# ========================
 # Artefatti di Windows/WSL
-# ========================
 *:Zone.Identifier
 *.Zone.Identifier
 
-# ==============
 # File compilati
-# ==============
 main.pdf
 programma
